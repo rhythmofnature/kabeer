@@ -1,0 +1,309 @@
+2016-10-17 06:26:32 [127.0.0.1][1][-][error][yii\base\ErrorException:256] exception 'yii\base\ErrorException' with message 'Exception 'ReflectionException' with message 'Class decimal does not exist' 
+
+in /var/www/html/kabeer/vendor/yiisoft/yii2/di/Container.php:415
+
+Stack trace:
+#0 /var/www/html/kabeer/vendor/yiisoft/yii2/di/Container.php(415): ReflectionClass->__construct('decimal')
+#1 /var/www/html/kabeer/vendor/yiisoft/yii2/di/Container.php(358): yii\di\Container->getDependencies('decimal')
+#2 /var/www/html/kabeer/vendor/yiisoft/yii2/di/Container.php(151): yii\di\Container->build('decimal', Array, Array)
+#3 /var/www/html/kabeer/vendor/yiisoft/yii2/BaseYii.php(344): yii\di\Container->get('decimal', Array, Array)
+#4 /var/www/html/kabeer/vendor/yiisoft/yii2/validators/Validator.php(204): yii\BaseYii::createObject(Array)
+#5 /var/www/html/kabeer/vendor/yiisoft/yii2/base/Model.php(422): yii\validators\Validator::createValidator('decimal', Object(app\modules\business\models\MaterialTypes), Array, Array)
+#6 /var/www/html/kabeer/vendor/yiisoft/yii2/base/Model.php(386): yii\base\Model->createValidators()
+#7 /var/www/html/kabeer/vendor/yiisoft/yii2/base/Model.php(184): yii\base\Model->getValidators()
+#8 /var/www/html/kabeer/vendor/yiisoft/yii2/base/Model.php(736): yii\base\Model->scenarios()
+#9 /var/www/html/kabeer/vendor/yiisoft/yii2/widgets/ActiveField.php(752): yii\base\Model->activeAttributes()
+#10 /var/www/html/kabeer/vendor/yiisoft/yii2/widgets/ActiveField.php(210): yii\widgets\ActiveField->getClientOptions()
+#11 /var/www/html/kabeer/vendor/yiisoft/yii2/widgets/ActiveField.php(200): yii\widgets\ActiveField->begin()
+#12 /var/www/html/kabeer/vendor/yiisoft/yii2/widgets/ActiveField.php(156): yii\widgets\ActiveField->render()
+#13 /var/www/html/kabeer/modules/business/views/material/_form.php(17): yii\widgets\ActiveField->__toString()
+#14 /var/www/html/kabeer/vendor/yiisoft/yii2/base/View.php(325): require('/var/www/html/k...')
+#15 /var/www/html/kabeer/vendor/yiisoft/yii2/base/View.php(247): yii\base\View->renderPhpFile('/var/www/html/k...', Array)
+#16 /var/www/html/kabeer/vendor/yiisoft/yii2/base/View.php(149): yii\base\View->renderFile('/var/www/html/k...', Array, NULL)
+#17 /var/www/html/kabeer/modules/business/views/material/create.php(29): yii\base\View->render('_form', Array)
+#18 /var/www/html/kabeer/vendor/yiisoft/yii2/base/View.php(325): require('/var/www/html/k...')
+#19 /var/www/html/kabeer/vendor/yiisoft/yii2/base/View.php(247): yii\base\View->renderPhpFile('/var/www/html/k...', Array)
+#20 /var/www/html/kabeer/vendor/yiisoft/yii2/base/View.php(149): yii\base\View->renderFile('/var/www/html/k...', Array, Object(app\modules\business\controllers\MaterialController))
+#21 /var/www/html/kabeer/vendor/yiisoft/yii2/base/Controller.php(367): yii\base\View->render('create', Array, Object(app\modules\business\controllers\MaterialController))
+#22 /var/www/html/kabeer/modules/business/controllers/MaterialController.php(71): yii\base\Controller->render('create', Array)
+#23 [internal function]: app\modules\business\controllers\MaterialController->actionCreate()
+#24 /var/www/html/kabeer/vendor/yiisoft/yii2/base/InlineAction.php(55): call_user_func_array(Array, Array)
+#25 /var/www/html/kabeer/vendor/yiisoft/yii2/base/Controller.php(151): yii\base\InlineAction->runWithParams(Array)
+#26 /var/www/html/kabeer/vendor/yiisoft/yii2/base/Module.php(455): yii\base\Controller->runAction('create', Array)
+#27 /var/www/html/kabeer/vendor/yiisoft/yii2/web/Application.php(83): yii\base\Module->runAction('business/materi...', Array)
+#28 /var/www/html/kabeer/vendor/yiisoft/yii2/base/Application.php(375): yii\web\Application->handleRequest(Object(yii\web\Request))
+#29 /var/www/html/kabeer/index.php(50): yii\base\Application->run()
+#30 {main}' in /var/www/html/kabeer/vendor/yiisoft/yii2/base/ErrorHandler.php:234
+Stack trace:
+#0 [internal function]: yii\base\ErrorHandler->handleError(256, 'Exception 'Refl...', '/var/www/html/k...', 234, Array)
+#1 /var/www/html/kabeer/vendor/yiisoft/yii2/base/ErrorHandler.php(234): trigger_error('Exception 'Refl...', 256)
+#2 /var/www/html/kabeer/vendor/yiisoft/yii2/widgets/ActiveField.php(158): yii\base\ErrorHandler::convertExceptionToError(Object(ReflectionException))
+#3 /var/www/html/kabeer/modules/business/views/material/_form.php(17): yii\widgets\ActiveField->__toString()
+#4 /var/www/html/kabeer/vendor/yiisoft/yii2/base/View.php(325): require('/var/www/html/k...')
+#5 /var/www/html/kabeer/vendor/yiisoft/yii2/base/View.php(247): yii\base\View->renderPhpFile('/var/www/html/k...', Array)
+#6 /var/www/html/kabeer/vendor/yiisoft/yii2/base/View.php(149): yii\base\View->renderFile('/var/www/html/k...', Array, NULL)
+#7 /var/www/html/kabeer/modules/business/views/material/create.php(29): yii\base\View->render('_form', Array)
+#8 /var/www/html/kabeer/vendor/yiisoft/yii2/base/View.php(325): require('/var/www/html/k...')
+#9 /var/www/html/kabeer/vendor/yiisoft/yii2/base/View.php(247): yii\base\View->renderPhpFile('/var/www/html/k...', Array)
+#10 /var/www/html/kabeer/vendor/yiisoft/yii2/base/View.php(149): yii\base\View->renderFile('/var/www/html/k...', Array, Object(app\modules\business\controllers\MaterialController))
+#11 /var/www/html/kabeer/vendor/yiisoft/yii2/base/Controller.php(367): yii\base\View->render('create', Array, Object(app\modules\business\controllers\MaterialController))
+#12 /var/www/html/kabeer/modules/business/controllers/MaterialController.php(71): yii\base\Controller->render('create', Array)
+#13 [internal function]: app\modules\business\controllers\MaterialController->actionCreate()
+#14 /var/www/html/kabeer/vendor/yiisoft/yii2/base/InlineAction.php(55): call_user_func_array(Array, Array)
+#15 /var/www/html/kabeer/vendor/yiisoft/yii2/base/Controller.php(151): yii\base\InlineAction->runWithParams(Array)
+#16 /var/www/html/kabeer/vendor/yiisoft/yii2/base/Module.php(455): yii\base\Controller->runAction('create', Array)
+#17 /var/www/html/kabeer/vendor/yiisoft/yii2/web/Application.php(83): yii\base\Module->runAction('business/materi...', Array)
+#18 /var/www/html/kabeer/vendor/yiisoft/yii2/base/Application.php(375): yii\web\Application->handleRequest(Object(yii\web\Request))
+#19 /var/www/html/kabeer/index.php(50): yii\base\Application->run()
+#20 {main}
+    in /var/www/html/kabeer/modules/business/views/material/_form.php:17
+    in /var/www/html/kabeer/modules/business/views/material/create.php:29
+    in /var/www/html/kabeer/modules/business/controllers/MaterialController.php:71
+2016-10-17 06:26:32 [127.0.0.1][1][-][info][application] $_COOKIE = [
+    'qw_login' => '377'
+    '__utma' => '111872281.1668865359.1476093495.1476093495.1476093495.1'
+    '__utmz' => '111872281.1476093495.1.1.utmcsr=(direct)|utmccn=(direct)|utmcmd=(none)'
+    '__tawkuuid' => 'e::localhost::mrW167UHsvrJ hgJcClqnHTQowsdlQK2YDaeyKxtHV0x1vnOOMDuLZb3snxq0IEl::2'
+    'Tawk_577147b77ff0639e1350f1e4' => 'vs31.tawk.to:443::0'
+    'sigma_login' => '116'
+    'sigma_rand' => '5f57f36cdfc4'
+    'PHPSESSID' => 'aa03iic0ng8k1ceterh9nqhaj6'
+    '_csrf' => 'e5cead7b97ac7161a774b4091f5bd58470d711f3b47ef67b112e5c8c5aee9a83a:2:{i:0;s:5:\"_csrf\";i:1;s:32:\"I8C3s83Yb0rpIeyCbHuTBCL8BS5cE8G6\";}'
+]
+
+$_SESSION = [
+    '__flash' => []
+    'admin_user' => 1
+    '__id' => 1
+]
+
+$_SERVER = [
+    'HTTP_HOST' => 'localhost'
+    'HTTP_USER_AGENT' => 'Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:49.0) Gecko/20100101 Firefox/49.0'
+    'HTTP_ACCEPT' => 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8'
+    'HTTP_ACCEPT_LANGUAGE' => 'en-US,en;q=0.5'
+    'HTTP_ACCEPT_ENCODING' => 'gzip, deflate'
+    'HTTP_REFERER' => 'http://localhost/kabeer/index.php/business/material/index'
+    'HTTP_COOKIE' => 'qw_login=377; __utma=111872281.1668865359.1476093495.1476093495.1476093495.1; __utmz=111872281.1476093495.1.1.utmcsr=(direct)|utmccn=(direct)|utmcmd=(none); __tawkuuid=e::localhost::mrW167UHsvrJ+hgJcClqnHTQowsdlQK2YDaeyKxtHV0x1vnOOMDuLZb3snxq0IEl::2; Tawk_577147b77ff0639e1350f1e4=vs31.tawk.to:443::0; sigma_login=116; sigma_rand=5f57f36cdfc4; PHPSESSID=aa03iic0ng8k1ceterh9nqhaj6; _csrf=e5cead7b97ac7161a774b4091f5bd58470d711f3b47ef67b112e5c8c5aee9a83a%3A2%3A%7Bi%3A0%3Bs%3A5%3A%22_csrf%22%3Bi%3A1%3Bs%3A32%3A%22I8C3s83Yb0rpIeyCbHuTBCL8BS5cE8G6%22%3B%7D'
+    'HTTP_CONNECTION' => 'keep-alive'
+    'HTTP_UPGRADE_INSECURE_REQUESTS' => '1'
+    'PATH' => '/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin'
+    'SERVER_SIGNATURE' => '<address>Apache/2.4.18 (Ubuntu) Server at localhost Port 80</address>
+'
+    'SERVER_SOFTWARE' => 'Apache/2.4.18 (Ubuntu)'
+    'SERVER_NAME' => 'localhost'
+    'SERVER_ADDR' => '127.0.0.1'
+    'SERVER_PORT' => '80'
+    'REMOTE_ADDR' => '127.0.0.1'
+    'DOCUMENT_ROOT' => '/var/www/html'
+    'REQUEST_SCHEME' => 'http'
+    'CONTEXT_PREFIX' => ''
+    'CONTEXT_DOCUMENT_ROOT' => '/var/www/html'
+    'SERVER_ADMIN' => 'webmaster@localhost'
+    'SCRIPT_FILENAME' => '/var/www/html/kabeer/index.php'
+    'REMOTE_PORT' => '39656'
+    'GATEWAY_INTERFACE' => 'CGI/1.1'
+    'SERVER_PROTOCOL' => 'HTTP/1.1'
+    'REQUEST_METHOD' => 'GET'
+    'QUERY_STRING' => ''
+    'REQUEST_URI' => '/kabeer/index.php/business/material/create'
+    'SCRIPT_NAME' => '/kabeer/index.php'
+    'PATH_INFO' => '/business/material/create'
+    'PATH_TRANSLATED' => '/var/www/html/business/material/create'
+    'PHP_SELF' => '/kabeer/index.php/business/material/create'
+    'REQUEST_TIME_FLOAT' => 1476685592.431
+    'REQUEST_TIME' => 1476685592
+]
+2016-10-17 06:26:42 [127.0.0.1][1][-][error][yii\base\ErrorException:256] exception 'yii\base\ErrorException' with message 'Exception 'ReflectionException' with message 'Class float does not exist' 
+
+in /var/www/html/kabeer/vendor/yiisoft/yii2/di/Container.php:415
+
+Stack trace:
+#0 /var/www/html/kabeer/vendor/yiisoft/yii2/di/Container.php(415): ReflectionClass->__construct('float')
+#1 /var/www/html/kabeer/vendor/yiisoft/yii2/di/Container.php(358): yii\di\Container->getDependencies('float')
+#2 /var/www/html/kabeer/vendor/yiisoft/yii2/di/Container.php(151): yii\di\Container->build('float', Array, Array)
+#3 /var/www/html/kabeer/vendor/yiisoft/yii2/BaseYii.php(344): yii\di\Container->get('float', Array, Array)
+#4 /var/www/html/kabeer/vendor/yiisoft/yii2/validators/Validator.php(204): yii\BaseYii::createObject(Array)
+#5 /var/www/html/kabeer/vendor/yiisoft/yii2/base/Model.php(422): yii\validators\Validator::createValidator('float', Object(app\modules\business\models\MaterialTypes), Array, Array)
+#6 /var/www/html/kabeer/vendor/yiisoft/yii2/base/Model.php(386): yii\base\Model->createValidators()
+#7 /var/www/html/kabeer/vendor/yiisoft/yii2/base/Model.php(184): yii\base\Model->getValidators()
+#8 /var/www/html/kabeer/vendor/yiisoft/yii2/base/Model.php(736): yii\base\Model->scenarios()
+#9 /var/www/html/kabeer/vendor/yiisoft/yii2/widgets/ActiveField.php(752): yii\base\Model->activeAttributes()
+#10 /var/www/html/kabeer/vendor/yiisoft/yii2/widgets/ActiveField.php(210): yii\widgets\ActiveField->getClientOptions()
+#11 /var/www/html/kabeer/vendor/yiisoft/yii2/widgets/ActiveField.php(200): yii\widgets\ActiveField->begin()
+#12 /var/www/html/kabeer/vendor/yiisoft/yii2/widgets/ActiveField.php(156): yii\widgets\ActiveField->render()
+#13 /var/www/html/kabeer/modules/business/views/material/_form.php(17): yii\widgets\ActiveField->__toString()
+#14 /var/www/html/kabeer/vendor/yiisoft/yii2/base/View.php(325): require('/var/www/html/k...')
+#15 /var/www/html/kabeer/vendor/yiisoft/yii2/base/View.php(247): yii\base\View->renderPhpFile('/var/www/html/k...', Array)
+#16 /var/www/html/kabeer/vendor/yiisoft/yii2/base/View.php(149): yii\base\View->renderFile('/var/www/html/k...', Array, NULL)
+#17 /var/www/html/kabeer/modules/business/views/material/create.php(29): yii\base\View->render('_form', Array)
+#18 /var/www/html/kabeer/vendor/yiisoft/yii2/base/View.php(325): require('/var/www/html/k...')
+#19 /var/www/html/kabeer/vendor/yiisoft/yii2/base/View.php(247): yii\base\View->renderPhpFile('/var/www/html/k...', Array)
+#20 /var/www/html/kabeer/vendor/yiisoft/yii2/base/View.php(149): yii\base\View->renderFile('/var/www/html/k...', Array, Object(app\modules\business\controllers\MaterialController))
+#21 /var/www/html/kabeer/vendor/yiisoft/yii2/base/Controller.php(367): yii\base\View->render('create', Array, Object(app\modules\business\controllers\MaterialController))
+#22 /var/www/html/kabeer/modules/business/controllers/MaterialController.php(71): yii\base\Controller->render('create', Array)
+#23 [internal function]: app\modules\business\controllers\MaterialController->actionCreate()
+#24 /var/www/html/kabeer/vendor/yiisoft/yii2/base/InlineAction.php(55): call_user_func_array(Array, Array)
+#25 /var/www/html/kabeer/vendor/yiisoft/yii2/base/Controller.php(151): yii\base\InlineAction->runWithParams(Array)
+#26 /var/www/html/kabeer/vendor/yiisoft/yii2/base/Module.php(455): yii\base\Controller->runAction('create', Array)
+#27 /var/www/html/kabeer/vendor/yiisoft/yii2/web/Application.php(83): yii\base\Module->runAction('business/materi...', Array)
+#28 /var/www/html/kabeer/vendor/yiisoft/yii2/base/Application.php(375): yii\web\Application->handleRequest(Object(yii\web\Request))
+#29 /var/www/html/kabeer/index.php(50): yii\base\Application->run()
+#30 {main}' in /var/www/html/kabeer/vendor/yiisoft/yii2/base/ErrorHandler.php:234
+Stack trace:
+#0 [internal function]: yii\base\ErrorHandler->handleError(256, 'Exception 'Refl...', '/var/www/html/k...', 234, Array)
+#1 /var/www/html/kabeer/vendor/yiisoft/yii2/base/ErrorHandler.php(234): trigger_error('Exception 'Refl...', 256)
+#2 /var/www/html/kabeer/vendor/yiisoft/yii2/widgets/ActiveField.php(158): yii\base\ErrorHandler::convertExceptionToError(Object(ReflectionException))
+#3 /var/www/html/kabeer/modules/business/views/material/_form.php(17): yii\widgets\ActiveField->__toString()
+#4 /var/www/html/kabeer/vendor/yiisoft/yii2/base/View.php(325): require('/var/www/html/k...')
+#5 /var/www/html/kabeer/vendor/yiisoft/yii2/base/View.php(247): yii\base\View->renderPhpFile('/var/www/html/k...', Array)
+#6 /var/www/html/kabeer/vendor/yiisoft/yii2/base/View.php(149): yii\base\View->renderFile('/var/www/html/k...', Array, NULL)
+#7 /var/www/html/kabeer/modules/business/views/material/create.php(29): yii\base\View->render('_form', Array)
+#8 /var/www/html/kabeer/vendor/yiisoft/yii2/base/View.php(325): require('/var/www/html/k...')
+#9 /var/www/html/kabeer/vendor/yiisoft/yii2/base/View.php(247): yii\base\View->renderPhpFile('/var/www/html/k...', Array)
+#10 /var/www/html/kabeer/vendor/yiisoft/yii2/base/View.php(149): yii\base\View->renderFile('/var/www/html/k...', Array, Object(app\modules\business\controllers\MaterialController))
+#11 /var/www/html/kabeer/vendor/yiisoft/yii2/base/Controller.php(367): yii\base\View->render('create', Array, Object(app\modules\business\controllers\MaterialController))
+#12 /var/www/html/kabeer/modules/business/controllers/MaterialController.php(71): yii\base\Controller->render('create', Array)
+#13 [internal function]: app\modules\business\controllers\MaterialController->actionCreate()
+#14 /var/www/html/kabeer/vendor/yiisoft/yii2/base/InlineAction.php(55): call_user_func_array(Array, Array)
+#15 /var/www/html/kabeer/vendor/yiisoft/yii2/base/Controller.php(151): yii\base\InlineAction->runWithParams(Array)
+#16 /var/www/html/kabeer/vendor/yiisoft/yii2/base/Module.php(455): yii\base\Controller->runAction('create', Array)
+#17 /var/www/html/kabeer/vendor/yiisoft/yii2/web/Application.php(83): yii\base\Module->runAction('business/materi...', Array)
+#18 /var/www/html/kabeer/vendor/yiisoft/yii2/base/Application.php(375): yii\web\Application->handleRequest(Object(yii\web\Request))
+#19 /var/www/html/kabeer/index.php(50): yii\base\Application->run()
+#20 {main}
+    in /var/www/html/kabeer/modules/business/views/material/_form.php:17
+    in /var/www/html/kabeer/modules/business/views/material/create.php:29
+    in /var/www/html/kabeer/modules/business/controllers/MaterialController.php:71
+2016-10-17 06:26:42 [127.0.0.1][1][-][info][application] $_COOKIE = [
+    'qw_login' => '377'
+    '__utma' => '111872281.1668865359.1476093495.1476093495.1476093495.1'
+    '__utmz' => '111872281.1476093495.1.1.utmcsr=(direct)|utmccn=(direct)|utmcmd=(none)'
+    '__tawkuuid' => 'e::localhost::mrW167UHsvrJ hgJcClqnHTQowsdlQK2YDaeyKxtHV0x1vnOOMDuLZb3snxq0IEl::2'
+    'Tawk_577147b77ff0639e1350f1e4' => 'vs31.tawk.to:443::0'
+    'sigma_login' => '116'
+    'sigma_rand' => '5f57f36cdfc4'
+    'PHPSESSID' => 'aa03iic0ng8k1ceterh9nqhaj6'
+    '_csrf' => 'e5cead7b97ac7161a774b4091f5bd58470d711f3b47ef67b112e5c8c5aee9a83a:2:{i:0;s:5:\"_csrf\";i:1;s:32:\"I8C3s83Yb0rpIeyCbHuTBCL8BS5cE8G6\";}'
+]
+
+$_SESSION = [
+    '__flash' => []
+    'admin_user' => 1
+    '__id' => 1
+]
+
+$_SERVER = [
+    'HTTP_HOST' => 'localhost'
+    'HTTP_USER_AGENT' => 'Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:49.0) Gecko/20100101 Firefox/49.0'
+    'HTTP_ACCEPT' => 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8'
+    'HTTP_ACCEPT_LANGUAGE' => 'en-US,en;q=0.5'
+    'HTTP_ACCEPT_ENCODING' => 'gzip, deflate'
+    'HTTP_REFERER' => 'http://localhost/kabeer/index.php/business/material/index'
+    'HTTP_COOKIE' => 'qw_login=377; __utma=111872281.1668865359.1476093495.1476093495.1476093495.1; __utmz=111872281.1476093495.1.1.utmcsr=(direct)|utmccn=(direct)|utmcmd=(none); __tawkuuid=e::localhost::mrW167UHsvrJ+hgJcClqnHTQowsdlQK2YDaeyKxtHV0x1vnOOMDuLZb3snxq0IEl::2; Tawk_577147b77ff0639e1350f1e4=vs31.tawk.to:443::0; sigma_login=116; sigma_rand=5f57f36cdfc4; PHPSESSID=aa03iic0ng8k1ceterh9nqhaj6; _csrf=e5cead7b97ac7161a774b4091f5bd58470d711f3b47ef67b112e5c8c5aee9a83a%3A2%3A%7Bi%3A0%3Bs%3A5%3A%22_csrf%22%3Bi%3A1%3Bs%3A32%3A%22I8C3s83Yb0rpIeyCbHuTBCL8BS5cE8G6%22%3B%7D'
+    'HTTP_CONNECTION' => 'keep-alive'
+    'HTTP_UPGRADE_INSECURE_REQUESTS' => '1'
+    'HTTP_CACHE_CONTROL' => 'max-age=0'
+    'PATH' => '/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin'
+    'SERVER_SIGNATURE' => '<address>Apache/2.4.18 (Ubuntu) Server at localhost Port 80</address>
+'
+    'SERVER_SOFTWARE' => 'Apache/2.4.18 (Ubuntu)'
+    'SERVER_NAME' => 'localhost'
+    'SERVER_ADDR' => '127.0.0.1'
+    'SERVER_PORT' => '80'
+    'REMOTE_ADDR' => '127.0.0.1'
+    'DOCUMENT_ROOT' => '/var/www/html'
+    'REQUEST_SCHEME' => 'http'
+    'CONTEXT_PREFIX' => ''
+    'CONTEXT_DOCUMENT_ROOT' => '/var/www/html'
+    'SERVER_ADMIN' => 'webmaster@localhost'
+    'SCRIPT_FILENAME' => '/var/www/html/kabeer/index.php'
+    'REMOTE_PORT' => '39670'
+    'GATEWAY_INTERFACE' => 'CGI/1.1'
+    'SERVER_PROTOCOL' => 'HTTP/1.1'
+    'REQUEST_METHOD' => 'GET'
+    'QUERY_STRING' => ''
+    'REQUEST_URI' => '/kabeer/index.php/business/material/create'
+    'SCRIPT_NAME' => '/kabeer/index.php'
+    'PATH_INFO' => '/business/material/create'
+    'PATH_TRANSLATED' => '/var/www/html/business/material/create'
+    'PHP_SELF' => '/kabeer/index.php/business/material/create'
+    'REQUEST_TIME_FLOAT' => 1476685602.632
+    'REQUEST_TIME' => 1476685602
+]
+2016-10-17 06:43:58 [127.0.0.1][1][-][error][yii\base\UnknownPropertyException] exception 'yii\base\UnknownPropertyException' with message 'Setting unknown property: app\modules\business\models\Trips::trip_count' in /var/www/html/kabeer/vendor/yiisoft/yii2/base/Component.php:197
+Stack trace:
+#0 /var/www/html/kabeer/vendor/yiisoft/yii2/db/BaseActiveRecord.php(266): yii\base\Component->__set('trip_count', '1')
+#1 /var/www/html/kabeer/modules/business/views/trips/_form.php(171): yii\db\BaseActiveRecord->__set('trip_count', '1')
+#2 /var/www/html/kabeer/vendor/yiisoft/yii2/base/View.php(325): require('/var/www/html/k...')
+#3 /var/www/html/kabeer/vendor/yiisoft/yii2/base/View.php(247): yii\base\View->renderPhpFile('/var/www/html/k...', Array)
+#4 /var/www/html/kabeer/vendor/yiisoft/yii2/base/View.php(149): yii\base\View->renderFile('/var/www/html/k...', Array, NULL)
+#5 /var/www/html/kabeer/modules/business/views/trips/create.php(33): yii\base\View->render('_form', Array)
+#6 /var/www/html/kabeer/vendor/yiisoft/yii2/base/View.php(325): require('/var/www/html/k...')
+#7 /var/www/html/kabeer/vendor/yiisoft/yii2/base/View.php(247): yii\base\View->renderPhpFile('/var/www/html/k...', Array)
+#8 /var/www/html/kabeer/vendor/yiisoft/yii2/base/View.php(149): yii\base\View->renderFile('/var/www/html/k...', Array, Object(app\modules\business\controllers\TripsController))
+#9 /var/www/html/kabeer/vendor/yiisoft/yii2/base/Controller.php(367): yii\base\View->render('create', Array, Object(app\modules\business\controllers\TripsController))
+#10 /var/www/html/kabeer/modules/business/controllers/TripsController.php(87): yii\base\Controller->render('create', Array)
+#11 [internal function]: app\modules\business\controllers\TripsController->actionCreate()
+#12 /var/www/html/kabeer/vendor/yiisoft/yii2/base/InlineAction.php(55): call_user_func_array(Array, Array)
+#13 /var/www/html/kabeer/vendor/yiisoft/yii2/base/Controller.php(151): yii\base\InlineAction->runWithParams(Array)
+#14 /var/www/html/kabeer/vendor/yiisoft/yii2/base/Module.php(455): yii\base\Controller->runAction('create', Array)
+#15 /var/www/html/kabeer/vendor/yiisoft/yii2/web/Application.php(83): yii\base\Module->runAction('business/trips/...', Array)
+#16 /var/www/html/kabeer/vendor/yiisoft/yii2/base/Application.php(375): yii\web\Application->handleRequest(Object(yii\web\Request))
+#17 /var/www/html/kabeer/index.php(50): yii\base\Application->run()
+#18 {main}
+2016-10-17 06:43:58 [127.0.0.1][1][-][info][application] $_COOKIE = [
+    'qw_login' => '377'
+    '__utma' => '111872281.1668865359.1476093495.1476093495.1476093495.1'
+    '__utmz' => '111872281.1476093495.1.1.utmcsr=(direct)|utmccn=(direct)|utmcmd=(none)'
+    '__tawkuuid' => 'e::localhost::mrW167UHsvrJ hgJcClqnHTQowsdlQK2YDaeyKxtHV0x1vnOOMDuLZb3snxq0IEl::2'
+    'Tawk_577147b77ff0639e1350f1e4' => 'vs31.tawk.to:443::0'
+    'sigma_login' => '116'
+    'sigma_rand' => '5f57f36cdfc4'
+    'PHPSESSID' => 'aa03iic0ng8k1ceterh9nqhaj6'
+    '_csrf' => 'e5cead7b97ac7161a774b4091f5bd58470d711f3b47ef67b112e5c8c5aee9a83a:2:{i:0;s:5:\"_csrf\";i:1;s:32:\"I8C3s83Yb0rpIeyCbHuTBCL8BS5cE8G6\";}'
+]
+
+$_SESSION = [
+    '__flash' => []
+    'admin_user' => 1
+    '__id' => 1
+]
+
+$_SERVER = [
+    'HTTP_HOST' => 'localhost'
+    'HTTP_USER_AGENT' => 'Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:49.0) Gecko/20100101 Firefox/49.0'
+    'HTTP_ACCEPT' => 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8'
+    'HTTP_ACCEPT_LANGUAGE' => 'en-US,en;q=0.5'
+    'HTTP_ACCEPT_ENCODING' => 'gzip, deflate'
+    'HTTP_REFERER' => 'http://localhost/kabeer/index.php/business/trips'
+    'HTTP_COOKIE' => 'qw_login=377; __utma=111872281.1668865359.1476093495.1476093495.1476093495.1; __utmz=111872281.1476093495.1.1.utmcsr=(direct)|utmccn=(direct)|utmcmd=(none); __tawkuuid=e::localhost::mrW167UHsvrJ+hgJcClqnHTQowsdlQK2YDaeyKxtHV0x1vnOOMDuLZb3snxq0IEl::2; Tawk_577147b77ff0639e1350f1e4=vs31.tawk.to:443::0; sigma_login=116; sigma_rand=5f57f36cdfc4; PHPSESSID=aa03iic0ng8k1ceterh9nqhaj6; _csrf=e5cead7b97ac7161a774b4091f5bd58470d711f3b47ef67b112e5c8c5aee9a83a%3A2%3A%7Bi%3A0%3Bs%3A5%3A%22_csrf%22%3Bi%3A1%3Bs%3A32%3A%22I8C3s83Yb0rpIeyCbHuTBCL8BS5cE8G6%22%3B%7D'
+    'HTTP_CONNECTION' => 'keep-alive'
+    'HTTP_UPGRADE_INSECURE_REQUESTS' => '1'
+    'PATH' => '/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin'
+    'SERVER_SIGNATURE' => '<address>Apache/2.4.18 (Ubuntu) Server at localhost Port 80</address>
+'
+    'SERVER_SOFTWARE' => 'Apache/2.4.18 (Ubuntu)'
+    'SERVER_NAME' => 'localhost'
+    'SERVER_ADDR' => '127.0.0.1'
+    'SERVER_PORT' => '80'
+    'REMOTE_ADDR' => '127.0.0.1'
+    'DOCUMENT_ROOT' => '/var/www/html'
+    'REQUEST_SCHEME' => 'http'
+    'CONTEXT_PREFIX' => ''
+    'CONTEXT_DOCUMENT_ROOT' => '/var/www/html'
+    'SERVER_ADMIN' => 'webmaster@localhost'
+    'SCRIPT_FILENAME' => '/var/www/html/kabeer/index.php'
+    'REMOTE_PORT' => '39982'
+    'GATEWAY_INTERFACE' => 'CGI/1.1'
+    'SERVER_PROTOCOL' => 'HTTP/1.1'
+    'REQUEST_METHOD' => 'GET'
+    'QUERY_STRING' => ''
+    'REQUEST_URI' => '/kabeer/index.php/business/trips/create'
+    'SCRIPT_NAME' => '/kabeer/index.php'
+    'PATH_INFO' => '/business/trips/create'
+    'PATH_TRANSLATED' => '/var/www/html/business/trips/create'
+    'PHP_SELF' => '/kabeer/index.php/business/trips/create'
+    'REQUEST_TIME_FLOAT' => 1476686638.462
+    'REQUEST_TIME' => 1476686638
+]

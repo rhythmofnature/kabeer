@@ -1,0 +1,43 @@
+<?php
+
+use yii\helpers\Html;
+use yii\widgets\ActiveForm;
+use app\modules\business\models\VehicleDetails;
+/* @var $this yii\web\View */
+/* @var $model app\modules\business\models\VehicleDetails */
+/* @var $form yii\widgets\ActiveForm */
+?>
+
+<div class="vehicle-details-form">
+
+    <?php $form = ActiveForm::begin(); ?>
+
+    <?= $form->field($model, 'name')->textInput(['maxlength' => 250]) ?>
+
+    <?= $form->field($model, 'type')->textInput() ?>
+    <?= $form->field($model, 'type')
+        ->dropDownList(
+             VehicleDetails::$type,
+            ['prompt'=>'Select Type','style'=>'width:300px']
+        );?>
+
+    <?= $form->field($model, 'vehicle_number')->textInput(['maxlength' => 12]) ?>
+
+    <?= $form->field($model, 'size')->textInput(['maxlength' => 250]) ?>
+
+    <?= $form->field($model, 'charge_per_km')->textInput(['maxlength' => 15]) ?>
+
+    
+    <?= $form->field($model, 'status')
+        ->dropDownList(
+             VehicleDetails::$status,
+            ['prompt'=>'Select status','style'=>'width:300px']
+        );?>
+
+    <div class="form-group">
+        <?= Html::submitButton($model->isNewRecord ? 'Create' : 'Update', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
+    </div>
+
+    <?php ActiveForm::end(); ?>
+
+</div>
