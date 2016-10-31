@@ -41,7 +41,7 @@ class TripsSearch extends Trips
      *
      * @return ActiveDataProvider
      */
-    public function search($params)
+    public function search($params,$type='')
     {
         $query = Trips::find();
 
@@ -56,7 +56,10 @@ class TripsSearch extends Trips
             // $query->where('0=1');
             return $dataProvider;
         }
-        $query->where('id != '.Yii::$app->params['tripId']);
+        
+        if($type == 1) $query_addon = " and merchant > 0";
+        else if($type == 2) $query_addon = " and buyer > 0";        
+        $query->where('id != '.Yii::$app->params['tripId'].$query_addon);
         $query->andFilterWhere([
             'id' => $this->id,
             'date_of_travel' => $this->date_of_travel?date("Y-m-d",strtotime($this->date_of_travel)):$this->date_of_travel,

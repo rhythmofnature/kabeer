@@ -67,6 +67,11 @@ class BalanceSheet extends \yii\db\ActiveRecord
 	    return $this->hasOne(CustomerDetails::className(), ['id' => 'customer_id']);
 	}
 	
+	public function getMaterials()
+	{
+	    return $this->hasMany(TripProducts::className(), ['trip_id' => 'trip_id']);
+	}	
+	
 	public function search($params){
 	
             $query = self::find();
@@ -89,4 +94,6 @@ class BalanceSheet extends \yii\db\ActiveRecord
             ]);
             return $dataProvider;
 	}
+	
+	
 }

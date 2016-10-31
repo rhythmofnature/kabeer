@@ -12,7 +12,7 @@
         "irc": "irc://irc.freenode.net/yii",
         "source": "https://github.com/yiisoft/yii2"
     },
-    "minimum-stability": "stable",
+    "minimum-stability": "dev",
     "require": {
         "php": ">=5.4.0",
         "yiisoft/yii2": "*",
@@ -30,7 +30,8 @@
 	"philippfrenzel/yii2fullcalendar":"*",
         "miloschuman/yii2-highcharts-widget": "dev-master",
         "wbraganca/yii2-dynamicform": "dev-master",
-        "kartik-v/yii2-builder": "@dev"
+        "kartik-v/yii2-builder": "@dev",
+        "unclead/yii2-multiple-input": "~2.0"
 	
     },
     "require-dev": {

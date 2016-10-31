@@ -18,15 +18,7 @@ use app\modules\business\models\VehicleDetails;
     ]); ?>
     
     
-   <div class="col-xs-12 col-sm-6 col-lg-6">
-        <?= $form->field($model, 'vehicle_id')
-        ->dropDownList(
-        ArrayHelper::map(VehicleDetails::find()->where(['status'=>1])->all(), 'id', 'name'),
-        ['prompt'=>'Select Vehicle','style'=>'width:300px','id'=>'vehicle-id']
-        );?> 
-    
-    </div>   
-    
+   
 
     <div class="col-xs-12 col-sm-6 col-lg-6">
     <?php

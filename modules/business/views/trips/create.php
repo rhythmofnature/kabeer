@@ -7,7 +7,7 @@ use yii\helpers\Html;
 /* @var $model app\modules\business\models\Trips */
 
 $this->title = 'Create Trips';
-$this->params['breadcrumbs'][] = ['label' => 'Trips', 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => 'Sales', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 
@@ -29,7 +29,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
 
     <?= $this->render('_form', [
-        'model' => $model,
+        'model' => $model,'tripProducts'=>array()
     ]) ?>
 
 </div>

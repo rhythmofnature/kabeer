@@ -1,14 +1,17 @@
 <?php
 
 use yii\helpers\Html;
+use yii\grid\GridView;
 use yii\widgets\DetailView;
 use app\modules\business\models\MaterialTypes;
+use app\modules\business\models\TripProducts;
+use yii\data\ActiveDataProvider;
 
 /* @var $this yii\web\View */
 /* @var $model app\modules\business\models\Trips */
 
 $this->title = $model->id;
-$this->params['breadcrumbs'][] = ['label' => 'Trips', 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => 'Sales', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="trips-view">
@@ -36,41 +39,28 @@ $this->params['breadcrumbs'][] = $this->title;
 			'attribute'=>"date_of_travel",
 			'value' => date("Y-m-d",strtotime($model->date_of_travel))
 			],
-
-			[
-			'label'=>'Vehicle',
-			'attribute'=>"vehicle_id",
-			'value' => $model->vehicles['name']
-			],
-			[
-			'label'=>'Driver',
-			'attribute'=>"driver_id",
-			'value' => $model->driver['name']
-			],
-			[
-			'label'=>'Matrial',
-			'attribute'=>"material_id",
-			'value' => $model->material['name']
-			],
-
-            'size',
-			[
-			'label'=>'Measurement Type',
-			'attribute'=>"measurement_type",
-			'value' => MaterialTypes::$measurementType[$model->measurement_type]
-			],
-
-            'site_name',
-            'site_place',
-            'kilometre',
-            'vehicle_rent',
-            'driver_amount',
-            'merchant_amount',
-            'buyer_amount',
-            'buyer_amount_total',
-            'buyer_trip_sheet_number',
-            'seller_trip_sheet_number',
+                        'buyer_amount_total',
         ],
-    ]) ?>
+    ]);
+    
+    $query=TripProducts::find()->where(['trip_id'=>$model->id]);
+    $dataProvider = new ActiveDataProvider([
+            'query' => $query,
+        ]);
+    
+    ?>
+    
+     <?= GridView::widget([
+        'dataProvider' => $dataProvider,
+        'columns' => [
+             ['label'=>'Product',
+	    'attribute'=>"product_id",
+	    'value' => 'material.name'
+	  ],
+            'unit_price',
+            'quantity',
+            'price',
+         ],
+    ]); ?>
 
 </div>

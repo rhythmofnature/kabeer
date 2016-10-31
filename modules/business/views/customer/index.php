@@ -16,14 +16,14 @@ $this->params['breadcrumbs'][] = $this->title;
   <div class="col-xs-4"></div>
   <div class="col-lg-4 col-sm-4 col-xs-12 no-padding" style="padding-top: 20px !important;">
 	<div class="col-xs-4 left-padding">
+	
+	</div>
+	<div class="col-xs-4 left-padding">
+	
+	</div>    
+	<div class="col-xs-4 left-padding">
         <?= Html::a('ADD', ['create'], ['class' => 'btn btn-block btn-success']) ?>
-	</div>
-	<div class="col-xs-4 left-padding">
-	<?= Html::a('PDF', ['/export-data/export-to-pdf', 'model'=>get_class($searchModel)], ['class' => 'btn btn-block btn-warning', 'target'=>'_blank']) ?>
-	</div>
-	<div class="col-xs-4 left-padding">
-	<?= Html::a('EXCEL', ['/export-data/export-excel', 'model'=>get_class($searchModel)], ['class' => 'btn btn-block btn-primary', 'target'=>'_blank']) ?>
-	</div>
+	</div>  
   </div>
 </div>
 
@@ -52,7 +52,7 @@ $this->params['breadcrumbs'][] = $this->title;
             // 'status',
 	    [
 		    'class' => 'yii\grid\ActionColumn',
-		    'template' => '{view} {update} {delete} {prices}',
+		    'template' => '{view} {update} {delete}',
 		    'buttons' => [
 			    'prices' => function ($url,$model,$key) {
 				//return Html::a('<span class="fa fa-rupee"></span>',Yii::$app->homeUrl.'/business/customer/prices/?id='.$model->id);

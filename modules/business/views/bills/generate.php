@@ -93,7 +93,7 @@ $this->params['breadcrumbs'][] = ['label' => $this->title];
 $closed_bill=Transactions::find()->where(['status'=>'closed','customer_id'=>$model->id])->orderBy(['id'=> SORT_DESC])->one();
 $previous_balance = isset($closed_bill->balance)?$closed_bill->balance:0;
 $totalAmount = $totalPay = $advance_total = 0;
-$feesDetails = BalanceSheet::find()->where(['status' => 'open', 
+$feesDetails = BalanceSheet::find()->with(['materials'])->where(['status' => 'open', 
 'customer_id'=>$model->id])->all();
 	echo '<table class="table table-bordered tbl-pay-fees">';
 	echo '<col class="col-xs-1">';
@@ -101,60 +101,38 @@ $feesDetails = BalanceSheet::find()->where(['status' => 'open',
 	echo '<col class="col-xs-2">';
 	echo '<tr>';
 	echo '<th class="">SI No.</th>';
-	echo '<th>Material</th>';
-	echo '<th>Quantity</th>';
-	echo '<th>Vehicle Number</th>';
+	echo '<th>Product</th>';
 	echo '<th width="10%">Date</th>';
-// 	if($model->customer_type==1){
-//             echo '<th>Trip Sheet No: </th>';
-// 	}
-	if($model->customer_type==3){
-            echo '<th>To </th>';
-	}
-	if($model->customer_type==3 || $model->customer_type==2){
-            echo '<th>Site Name </th>';
-//              echo '<th>Trip Sheet No: </th>';
-	}
+
 	
 	echo '<th>Amount</th>';
 	echo '</tr>';
 	if($feesDetails){
 	 $trip_id =Yii::$app->params['tripId'];
-	foreach($feesDetails as $key=>$value) {
+	foreach($feesDetails as $key=>$value) { 
                 //print_r($value->trip);
 		echo '<tr>';
 		echo '<td>'.($key+1).'</td>';	
 		if($value->trip_id==$trip_id){
                     echo '<td >Advance</td>';
-                    echo '<td>-</td>';
-                    echo '<td>-</td>';
-                    echo '<td>'.date("d-m-Y",strtotime($value['created_on'])).'</td>';     
-                    if($model->customer_type==3 || $model->customer_type==2) echo '<td>-</td>';
-                    if($model->customer_type==3) echo '<td>-</td>';               
+                    echo '<td>'.date("d-m-Y",strtotime($value['created_on'])).'</td>';               
 		}else{
-                    echo '<td>'.$value->trip->material['name'].'</td>';
-                    echo '<td>'.$value->trip['size'].'</td>';
-                    echo '<td>'.$value->trip->vehicles['vehicle_number'].'</td>';
+		
+		    $products = '';
+		    if($value->materials)
+		    {
+		     foreach($value->materials as $material)
+		     {
+		      $products .= $material->material->name.' - '.$material['unit_price'].' X '.$material['quantity'].' = '.$material['price'].', ';
+		     }
+		     $products = rtrim($products,', ');
+		    }else $products = "Purchase";
+		
+                    echo '<td>'.$products.'</td>';
                     echo '<td>'.date("d-m-Y",strtotime($value['created_on'])).'</td>';
 		}
-		
 
-		if($model->customer_type==3){
-                    if($value->trip_id==$trip_id){
-                       
-                    }else{
-                        echo '<td>'.$value->trip->buyers['name'].'</td>';
-                   }
-                }
-                if($model->customer_type==3 || $model->customer_type==2){
-                    if($value->trip_id==$trip_id){
-                       
-                    }else{
-                        echo '<td>'.$value->trip['site_name'].'</td>';
-                    }
-//                     echo '<td>'.$value->trip['seller_trip_sheet_number'].'</td>';
-                }
-                
+               
 		echo '<td>'.abs($value['amount']).'</td>';
 		echo '</tr>';
 		
@@ -164,26 +142,15 @@ $feesDetails = BalanceSheet::find()->where(['status' => 'open',
 		
 	}
 	$grandTotal = $totalAmount+$previous_balance;
-	$colspan=5;
-	if($model->customer_type==2){
-	$colspan=6;
-	}
-	if($model->customer_type==3){
-	$colspan=7;
-	}
+	$colspan=3;
 	
 	echo '<tr><th colspan='.$colspan.' class="text-right col-md-9">Total</th><td>'.$totalAmount.'</td></tr>';
 	}else{
-            echo "<tr><td colspan=7> No trip to show</td></tr>";
+            echo "<tr><td colspan=4> No trip to show</td></tr>";
 	}
 	$grandTotal = $totalAmount+$previous_balance;
-	$colspan=5;
-	if($model->customer_type==2){
-	$colspan=6;
-	}
-	if($model->customer_type==3){
-	$colspan=7;
-	}
+	$colspan=3;
+
 	echo '<tr><th colspan='.$colspan.' class="text-right col-md-9">Previous Balance</th><td>'.$previous_balance.'</td></tr>';
 	
 	echo '<tr><th colspan='.$colspan.' class="text-right col-md-9">Grand Amount</th><td>'.$grandTotal.'</td></tr>';
@@ -197,7 +164,7 @@ $feesDetails = BalanceSheet::find()->where(['status' => 'open',
 	
 $open_bill=Transactions::findOne(['status'=>'open','customer_id'=>$model->id]);
  //if(!isset($open_bill->balance) && $grandTotal>0){
-        echo '<tr><th colspan=8  class="text-right col-md-9">'. Html::submitButton('<i class="fa fa-plus-circle"></i> Generate Bill', ['class' => 
+        echo '<tr><th colspan=4  class="text-right col-md-9">'. Html::submitButton('<i class="fa fa-plus-circle"></i> Generate Bill', ['class' => 
 'btn btn-primary' ]).'</td></tr>';
 //}
 

@@ -58,7 +58,7 @@ $this->params['breadcrumbs'][] = $this->title;
  	     [
 		'label' => 'User Type',
 		'attribute' => 'user_type',
-		'filter' => array(1=>'Merchant',2=>'Customer',3=>'Driver'),
+		'filter' => array(1=>'Merchant',2=>'Customer'),
 		'value' => function ($model,$key,$index){
                     $type="";
                     if($model->user['customer_type']==1){

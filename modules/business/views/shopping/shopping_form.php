@@ -40,7 +40,7 @@ use kartik\widgets\Select2
                     'yearRange'=>'1900:'.(date('Y')+1)],
                     'options'=>[
                     'class'=>'form-control',
-                    'placeholder' => $model->getAttributeLabel('date_of_travel'),'style'=>'width:500px'
+                    'placeholder' => $model->getAttributeLabel('date_of_travel'),'style'=>'width:400px'
                 ],]) ?>
         </div>
         
@@ -48,7 +48,7 @@ use kartik\widgets\Select2
         <?php
             echo $form->field($model, 'merchant')->widget(Select2::classname(), [
             'data' => ArrayHelper::map(CustomerDetails::find()->where(['status'=>1,'customer_type'=>1])->orderBy('name')->all(), 'id', 'name'),
-            'options' => ['placeholder' => 'Select Merchant ...','style'=>'width:500px'],
+            'options' => ['placeholder' => 'Select Merchant ...','style'=>'width:400px'],
             'pluginOptions' => [
             'allowClear' => true
             ],
@@ -58,17 +58,17 @@ use kartik\widgets\Select2
         <?php /*echo  $form->field($model, 'merchant')
         ->dropDownList(
         ArrayHelper::map(CustomerDetails::find()->where(['status'=>1,'customer_type'=>1])->all(), 'id', 'name'),
-        ['prompt'=>'Select Merchant','style'=>'width:500px','onChange'=>'merchantAmount();']
+        ['prompt'=>'Select Merchant','style'=>'width:400px','onChange'=>'merchantAmount();']
         );*/?>
         </div>
     </div>
       
     <div class="col-xs-12 col-lg-12 no-padding">
         <div class="col-xs-12 col-sm-6 col-lg-6">
-        <?= $form->field($model, 'merchant_amount')->textInput(['maxlength' => 7,'style'=>'width:500px']) ?>
+        <?= $form->field($model, 'merchant_amount')->textInput(['maxlength' => 7,'style'=>'width:400px']) ?>
         </div>
         <div class="col-xs-12 col-sm-6 col-lg-6">
-        <?= $form->field($model, 'seller_trip_sheet_number')->textInput(['maxlength' => 20,'style'=>'width:500px']) ?> 
+        <?= $form->field($model, 'seller_trip_sheet_number')->textInput(['maxlength' => 20,'style'=>'width:400px']) ?> 
         </div>
     </div>
       
@@ -79,11 +79,11 @@ use kartik\widgets\Select2
             $model->ready_merchant='no';
         echo $form->field($model, 'ready_merchant')
         ->dropDownList(array('no'=>'No','yes'=>'Yes'),
-        ['prompt'=>'Is it ready cash payment?','style'=>'width:500px']
+        ['prompt'=>'Is it ready cash payment?','style'=>'width:400px']
         ); ?>
         </div>
         <div class="col-xs-12 col-sm-6 col-lg-6">
-        <?= $form->field($model, 'site_name')->textArea(['rows'=>10,'style'=>'width:500px']) ?>
+        <?= $form->field($model, 'site_name')->textArea(['rows'=>10,'style'=>'width:400px']) ?>
         </div>
     </div>
     

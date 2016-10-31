@@ -108,20 +108,9 @@ $feesDetails = BalanceSheet::find()->where("id in($sheet_ids) AND customer_id='$
 	echo '<col class="col-xs-2">';
 	echo '<tr>';
 	echo '<th  >SI No.</th>';
-	echo '<th>Material</th>';
-	echo '<th >Quantity</th>';
-	echo '<th>Vehicle Number</th>';
+	echo '<th>Product</th>';
 	echo '<th  width="10%">Date</th>';
-// 	if($model->customer_type==1){
-//             echo '<th>Trip Sheet No: </th>';
-// 	}
-	if($model->customer_type==3){
-            echo '<th>To </th>';
-	}
-	if($model->customer_type==3 || $model->customer_type==2){
-            echo '<th>Site Name </th>';
-//              echo '<th>Trip Sheet No: </th>';
-	}
+
 	
 	echo '<th >Amount</th>';
 	echo '</tr>';
@@ -133,58 +122,39 @@ $feesDetails = BalanceSheet::find()->where("id in($sheet_ids) AND customer_id='$
 		echo '<td>'.($key+1).'</td>';	
 		if($value->trip_id==$trip_id){
 		echo '<td>Advance</td>';
-		echo '<td>-</td>';
-        echo '<td>-</td>';
 		echo '<td>'.date("d-m-Y",strtotime($value['created_on'])).'</td>';                    
 		}else{
-		echo '<td>'.$value->trip->material['name'].'</td>';
-		echo '<td>'.$value->trip['size'].'</td>';
-        echo '<td>'.$value->trip->vehicles['vehicle_number'].'</td>';
+		
+                $products = '';
+                if($value->materials)
+                {
+                    foreach($value->materials as $material)
+                    {
+                    $products .= $material->material->name.' - '.$material['unit_price'].' X '.$material['quantity'].' = '.$material['price'].', ';
+                    }
+                    $products = rtrim($products,', ');
+                }else $products = "Purchase";		
+		
+		
+		echo '<td>'.$products.'</td>';
 		echo '<td>'.date("d-m-Y",strtotime($value['created_on'])).'</td>';
 		}
-		
-// 		if($model->customer_type==1){
-//                    echo '<td>'.$value->trip['buyer_trip_sheet_number'].'</td>';
-//                 }
-		if($model->customer_type==3){
-                    if($value->trip_id!=$trip_id){
-                        echo '<td>'.$value->trip->buyers['name'].'</td>';
-                    }
-                  
-                }
-                if($model->customer_type==3 || $model->customer_type==2){
-                     if($value->trip_id!=$trip_id){
-                    echo '<td>'.$value->trip['site_name'].'</td>';
-                    }
-//                     echo '<td>'.$value->trip['seller_trip_sheet_number'].'</td>';
-                }
-                
+		             
 		echo '<td>'.$value['amount'].'</td>';
 		echo '</tr>';
 		if($value['amount'] > 0) $totalAmount+=$value['amount'];
 		else $advance_total += $value['amount'];
 	}
 	
-	$colspan=5;
-	if($model->customer_type==2){
-	$colspan=6;
-	}
-	if($model->customer_type==3){
-	$colspan=7;
-	}
+	$colspan=3;
 	
 	echo '<tr><th colspan='.$colspan.' class="text-right col-md-9">Total</th><td>'.$totalAmount.'</td></tr>';
 	}else{
-            echo "<tr><td colspan=7> No trip to show</td></tr>";
+            echo "<tr><td colspan=4> No trip to show</td></tr>";
 	}
 	$grandTotal = $totalAmount+$previous_balance;
-	$colspan=5;
-	if($model->customer_type==2){
-	$colspan=6;
-	}
-	if($model->customer_type==3){
-	$colspan=7;
-	}
+	$colspan=3;
+
 	
 	echo '<tr><th colspan='.$colspan.' class="text-right col-md-9">Previous Balance</th><td>'.$previous_balance.'</td></tr>';
 	

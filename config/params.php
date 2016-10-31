@@ -2,5 +2,5 @@
 
 return [
     'adminEmail' => 'info@rudrasoftech.com',
-    'tripId'=>356
+    'tripId'=>1
 ];

@@ -7,10 +7,11 @@ use app\modules\business\models\Trips;
 use app\modules\business\models\TripsSearch;
 use app\modules\business\models\MaterialTypes;
 use app\modules\business\models\BalanceSheet;
+use app\modules\business\models\TripProducts;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
-
+use yii\data\ActiveDataProvider;
 
 
 /**
@@ -37,7 +38,7 @@ class TripsController extends Controller
     public function actionIndex()
     {
         $searchModel = new TripsSearch();
-        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams,2);
 
         return $this->render('index', [
             'searchModel' => $searchModel,
@@ -64,26 +65,35 @@ class TripsController extends Controller
      */
     public function actionCreate()
     {
-        $model = new Trips();
-
+       $model = new Trips(['scenario' => Trips::SCENARIO_BUYER]);
+        $tripProducts = new TripProducts();
         if (Yii::$app->request->post()) {
-                        $trip_count=$_POST['Trips']['trip_count'];
-                        for($i=1;$i<=$trip_count;$i++){
-                            $model = new Trips();
+//                             print_r($_POST);exit;
+                            $model = new Trips(['scenario' => Trips::SCENARIO_BUYER]);
                             $model->load(Yii::$app->request->post());
-                            $material_id=$model->material_id;
-                            $material_type=MaterialTypes::findOne($material_id);
-                            $model->measurement_type=$material_type->measurement_type;
                             $model->date_of_travel = date("Y-m-d H:i:s",strtotime($model->date_of_travel));
-                            $model->buyer_amount=$model->buyer_amount_total-$model->vehicle_rent;
                             $model->save();
-			}
+//                             print_r($model->attributes);exit;
+                            $tripId=$model->id;
+                            foreach($_POST['TripProducts']['ProductDetails'] as $val){
+                                $TripProducts = new TripProducts();
+//                                 $TripProducts->product_id = $val->$val;
+                                 $TripProducts->product_id = $val['product_id'];
+                                 $TripProducts->unit_price = $val['unit_price'];
+                                 $TripProducts->quantity = $val['quantity'];
+                                 $TripProducts->price = $val['price'];
+                                 $TripProducts->trip_id = $tripId;
+                                 $TripProducts->save();
+
+                            }
+//                              print_r($_POST['TripProducts']);exit;
+
 			
             	return $this->redirect(['index']);
 			
         } else {
             return $this->render('create', [
-                'model' => $model,
+                'model' => $model,'tripProducts'=>$tripProducts
             ]);
         }
     }
@@ -102,11 +112,7 @@ class TripsController extends Controller
                         for($i=1;$i<=$trip_count;$i++){
                             $model = new Trips();
                             $model->load(Yii::$app->request->post());
-                            $material_id=$model->material_id;
-                            $material_type=MaterialTypes::findOne($material_id);
-                            $model->measurement_type=$material_type->measurement_type;
                             $model->date_of_travel = date("Y-m-d H:i:s",strtotime($model->date_of_travel));
-                            $model->buyer_amount=$model->buyer_amount_total-$model->vehicle_rent;
                             $model->save();
 			}
 			
@@ -135,27 +141,42 @@ class TripsController extends Controller
     
     
         $model = $this->findModel($id);
+        $model->scenario = Trips::SCENARIO_BUYER;
+        $tripProducts=TripProducts::find()->where(['trip_id'=>$id])->all();
+ 
+
+
 		if (Yii::$app->request->post()) {
 			$model->load(Yii::$app->request->post());
 			BalanceSheet::deleteAll('trip_id = :trip_id', [':trip_id' => $model->id]);
-			$model->trip_count = 1;
-			$material_id=$model->material_id;
-			$material_type=MaterialTypes::findOne($material_id);
-			$model->measurement_type=$material_type->measurement_type;
 			$model->date_of_travel = date("Y-m-d H:i:s",strtotime($model->date_of_travel));
-			if($model->save()){
-            	return $this->redirect(['view', 'id' => $model->id]);
+			if($model->save( )){
+                            $tripId=$model->id;
+                            TripProducts::deleteAll('trip_id = :trip_id', [':trip_id' => $tripId]);
+                            foreach($_POST['TripProducts']['ProductDetails'] as $val){
+                                
+                                 $TripProducts = new TripProducts();
+                                 $TripProducts->product_id = $val['product_id'];
+                                 $TripProducts->unit_price = $val['unit_price'];
+                                 $TripProducts->quantity = $val['quantity'];
+                                 $TripProducts->price = $val['price'];
+                                 $TripProducts->trip_id = $tripId;
+                                 $TripProducts->save();
+
+                            }
+                            return $this->redirect(['view', 'id' => $model->id]);
 			}else{
 				return $this->render('view', [
-                'model' => $model,
+                'model' => $model,'tripProducts'=>$tripProducts
             ]);
 			}
 
         //if ($model->load(Yii::$app->request->post()) && $model->save()) {
           //  return $this->redirect(['view', 'id' => $model->id]);
         } else {
+        
             return $this->render('update', [
-                'model' => $model,
+                'model' => $model,'tripProducts'=>$tripProducts
             ]);
         }
     }

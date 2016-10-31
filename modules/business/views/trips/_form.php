@@ -7,13 +7,17 @@ use app\modules\business\models\MaterialTypes;
 use app\modules\business\models\DriverDetails;
 use app\modules\business\models\VehicleDetails;
 use app\modules\business\models\CustomerDetails;
+use app\modules\business\models\TripProducts;
+
 use kartik\widgets\DepDrop;
 use yii\helpers\Url;
-use kartik\widgets\Select2
+use kartik\widgets\Select2;
+use unclead\multipleinput\MultipleInput;
 
 /* @var $this yii\web\View */
 /* @var $model app\modules\business\models\Trips */
 /* @var $form yii\widgets\ActiveForm */
+
 ?>
 
 
@@ -46,9 +50,9 @@ use kartik\widgets\Select2
         
         <div class="col-xs-12 col-sm-6 col-lg-6">
         <?php
-            echo $form->field($model, 'merchant')->widget(Select2::classname(), [
-            'data' => ArrayHelper::map(CustomerDetails::find()->where(['status'=>1,'customer_type'=>1])->orderBy('name')->all(), 'id', 'name'),
-            'options' => ['placeholder' => 'Select Merchant ...','style'=>'width:500px','onChange'=>'merchantAmount();'],
+           echo $form->field($model, 'buyer')->widget(Select2::classname(), [
+            'data' => ArrayHelper::map(CustomerDetails::find()->where(['status'=>1,'customer_type'=>2])->all(), 'id', 'name'),
+            'options' => ['placeholder' => 'Select Customer ...','style'=>'width:500px','onChange'=>'buyerAmount();'],
             'pluginOptions' => [
             'allowClear' => true
             ],
@@ -63,90 +67,65 @@ use kartik\widgets\Select2
         </div>
     </div>
       
-    <div class="col-xs-12 col-lg-12 no-padding">
-        <div class="col-xs-12 col-sm-6 col-lg-6">
-         <?php
-            echo $form->field($model, 'buyer')->widget(Select2::classname(), [
-            'data' => ArrayHelper::map(CustomerDetails::find()->where(['status'=>1,'customer_type'=>2])->orderBy('name')->all(), 'id', 'name'),
-            'options' => ['placeholder' => 'Select Customer ...','style'=>'width:500px','onChange'=>'buyerAmount();'],
-            'pluginOptions' => [
-            'allowClear' => true
-            ],
-            ]);
-            ?>
-            
-            
-        <?php /*echo  $form->field($model, 'buyer')
-        ->dropDownList(
-        ArrayHelper::map(CustomerDetails::find()->where(['status'=>1,'customer_type'=>2])->all(), 'id', 'name'),
-        ['prompt'=>'Select Buyer','style'=>'width:500px','onChange'=>'buyerAmount();']
-        );*/?>
-        </div>
-        <div class="col-xs-12 col-sm-6 col-lg-6">
-        <?= $form->field($model, 'vehicle_id')
-        ->dropDownList(
-        ArrayHelper::map(VehicleDetails::find()->where(['status'=>1])->all(), 'id', 'name'),
-        ['prompt'=>'Select Vehicle','style'=>'width:500px','id'=>'vehicle-id','onChange'=>'calculateKMA();']
-        );?>
-        </div>
-    </div>
-      
-    <div class="col-xs-12 col-lg-12 no-padding">
-        <div class="col-xs-12 col-sm-6 col-lg-6">
-        <?php echo $form->field($model, 'driver_id')->widget(DepDrop::classname(), 
+
+    <?php
+    $products= ArrayHelper::map(MaterialTypes::find()->where(['status'=>1])->all(), 'id', function($model, $defaultValue) {
+                return $model->name.' - '.MaterialTypes::$measurementType[$model->measurement_type];
+                }
+                );
+                
+
+ $DataModel = new TripProducts();
+?>
+    <?= $form->field($DataModel, 'ProductDetails')->widget(MultipleInput::className(), [
+    'max' => 100,
+    'data'=>$tripProducts,
+    'columns' => [
+  
         [
-        'options'=>['id'=>'driver_id','style'=>'width:500px'],
-        'data'=> ArrayHelper::map(DriverDetails::find()->where(['status'=>1,'customer_type'=>3])->all(), 'id', 'name'),
-        'pluginOptions'=>[
-        'depends'=>['vehicle-id'],
-        'placeholder'=>'Select driver',
-        'url'=>Url::to(['/business/driver/driverlist'])
-        ]
-        ]);
-        ?>   
-        </div>
-        <div class="col-xs-12 col-sm-6 col-lg-6">
-        <?= $form->field($model, 'material_id')
-        ->dropDownList(
-        ArrayHelper::map(MaterialTypes::find()->where(['status'=>1])->all(), 'id', function($model, $defaultValue) {
-        return $model->name.' - '.MaterialTypes::$measurementType[$model->measurement_type];
-        }
-        ),
-        ['prompt'=>'Select Material','style'=>'width:500px','onChange'=>'merchantAmount();buyerAmount();changematerial()']
-        );?>
-        </div>
-    </div>
-
-    <div class="col-xs-12 col-lg-12 no-padding">
-        <div class="col-xs-12 col-sm-6 col-lg-6">
-        <?= $form->field($model, 'size')->textInput(['maxlength' => 100,'style'=>'width:500px','onChange'=>'merchantAmount();buyerAmount();']) ?>
-        </div>
-        <div class="col-xs-12 col-sm-6 col-lg-6">
-        <?= $form->field($model, 'site_name')->textInput(['maxlength' => 250,'style'=>'width:500px']) ?>
-        </div>
-    </div>
-    
-    
-    <div class="col-xs-12 col-lg-12 no-padding">
- 
-        <div class="col-xs-12 col-sm-6 col-lg-6">
-        <?= $form->field($model, 'kilometre')->textInput(['maxlength' => 100,'style'=>'width:500px','onChange'=>'calculateKMA();']) ?>
-        </div>
-        <div class="col-xs-12 col-sm-6 col-lg-6">
-        <?= $form->field($model, 'vehicle_rent')->textInput(['style'=>'width:500px','onChange'=>'driverRent();']) ?>
-        </div>
-    </div>
-
-    <div class="col-xs-12 col-lg-12 no-padding">
+            'name'  => 'product_id',
+            'type'  => 'dropDownList',
+            'title' => 'Products',
+            'defaultValue' => 1,
+             'options' => ['placeholder' => 'Select Customer 
+...','style'=>'width:500px','onChange'=>'buyerAmount(this.value,this.id);','prompt'=>'Select'],
+            'items' => 
+              $products
+            
+        ],
         
-        <div class="col-xs-12 col-sm-6 col-lg-6">
-        <?= $form->field($model, 'driver_amount')->textInput(['maxlength' => 7,'style'=>'width:500px']) ?>
-        </div>
-        <div class="col-xs-12 col-sm-6 col-lg-6">
-        <?= $form->field($model, 'merchant_amount')->textInput(['maxlength' => 7,'style'=>'width:500px']) ?>
-        </div>
- 
-    </div>
+        [
+            'name'  => 'unit_price',
+            'enableError' => true,
+            'title' => 'Unit Price',
+            'options' => [
+                'class' => 'input-priority',
+                'onChange'=>'getProductTotal(this.id);'
+            ]
+        ],
+        
+        [
+            'name'  => 'quantity',
+            'enableError' => true,
+            'title' => 'Quantity',
+            'options' => [
+                'class' => 'input-priority',
+                 'onChange'=>'getProductTotal(this.id);'
+            ]
+        ],
+        [
+            'name'  => 'price',
+            'enableError' => true,
+            'title' => 'Price',
+            'options' => [
+                'class' => 'input-priority price',
+                 'onChange'=>'totalBuyersAmt();'
+            ]
+        ],
+        
+    ]
+ ]);
+?>
 
     <div class="col-xs-12 col-lg-12 no-padding">
         
@@ -154,54 +133,9 @@ use kartik\widgets\Select2
         <?= $form->field($model, 'buyer_amount_total')->textInput(['maxlength' => 7,'style'=>'width:500px']) ?>
         <?php echo $form->field($model, 'buyer_amount')->textInput(['maxlength' => 7,'style'=>'width:500px'])->hiddenInput()->label(false) ?>
         </div>
-        <div class="col-xs-12 col-sm-6 col-lg-6">
-        <?= $form->field($model, 'buyer_trip_sheet_number')->textInput(['maxlength' => 20,'style'=>'width:500px']) ?>
-        </div>
-    </div>
-
-    <div class="col-xs-12 col-lg-12 no-padding">
-        
-        <div class="col-xs-12 col-sm-6 col-lg-6">
-        <?= $form->field($model, 'seller_trip_sheet_number')->textInput(['maxlength' => 20,'style'=>'width:500px']) ?>
-        </div>
-        <div class="col-xs-12 col-sm-6 col-lg-6">
-         <?php 
-         if($model->isNewRecord){
-         if(!isset($model->ready_merchant))
-            $model->trip_count='1';
-            
-             $range= array("1"=>'1',"2"=>'2',"3"=>'3',"4"=>'4',"5"=>'5',"6"=>'6',"7"=>'7',"8"=>8,"9"=>'9',"10"=>'10');
-         echo $form->field($model, 'trip_count')
-        ->dropDownList($range,
-        ['prompt'=>'Trip Count','style'=>'width:500px']
-        );
-        }?>
-        </div>
+       
     </div>
     
-    <div class="col-xs-12 col-lg-12 no-padding">
-        
-        <div class="col-xs-12 col-sm-6 col-lg-6">
-        <?php 
-        if(!isset($model->ready_merchant))
-            $model->ready_merchant='no';
-        echo $form->field($model, 'ready_merchant')
-        ->dropDownList(array('no'=>'No','yes'=>'Yes'),
-        ['prompt'=>'Is it ready cash payment?','style'=>'width:500px']
-        ); ?>
-        </div>
-        <div class="col-xs-12 col-sm-6 col-lg-6">
-         <?php 
-         if(!isset($model->ready_buyer))
-            $model->ready_buyer='no';
-         echo $form->field($model, 'ready_buyer')
-        ->dropDownList(array('no'=>'No','yes'=>'Yes'),
-        ['prompt'=>'Is it ready cash payment','style'=>'width:500px']
-        ); ?>
-        </div>
-    </div>
-
-
     
     <div class="form-group col-xs-12 col-sm-6 col-lg-4 no-padding">
 	<div class="col-xs-6">
@@ -221,118 +155,52 @@ btn-block btn-info']) ?>
 </div>
 </div></div>
 <script>
-function changematerial(){
-    var text = $("#trips-material_id option:selected").text();
-    if (/load/i.test(text)){
-       $("#trips-size").val(1);
-    }
-    
 
-}
-function merchantAmount(){	
-
-  var material= $("#trips-material_id").val();
-  var quantity = $("#trips-size").val();
-  var merchant = $("#trips-merchant").val();
-  if(material !="" && quantity !="" && merchant !=""){
-  console.log(material);
-  console.log(quantity);
-   $.ajax({
-    type     :'POST',
-    cache    : false,
-    data: {material: material, 'quantity': quantity,'customer':merchant},
-    url  : '<?php echo \Yii::$app->getUrlManager()->createUrl('business/customer/gettripprice') ?>',
-    success  : function(response) {
-		$("#trips-merchant_amount").val(response);
-       console.log(response);
-    }
-    });
-  }
-
-}
-function buyerAmount(){	
-
-  var material= $("#trips-material_id").val();
-  var quantity = $("#trips-size").val();
-  var merchant = $("#trips-buyer").val();
-  if(material !="" && quantity !="" && merchant !=""){
-  console.log(material);
-  console.log(quantity);
-   $.ajax({
-    type     :'POST',
-    cache    : false,
-    data: {material: material, 'quantity': quantity,'customer':merchant},
-    url  : '<?php echo \Yii::$app->getUrlManager()->createUrl('business/customer/gettripprice') ?>',
-    success  : function(response) {
-		$("#trips-buyer_amount").val(response);
-		totalBuyersAmt();
-       console.log(response);
-    }
-    });
-  }
-
-}
-
-function calculateKMA(){
-
-  var vehicle = $("#vehicle-id").val();
-  var km = $("#trips-kilometre").val();
-  if(vehicle !="" && km !=""){
-  console.log(vehicle);
-  console.log(km);
-   $.ajax({
-    type     :'POST',
-    cache    : false,
-    data: {vehicle: vehicle, 'km': km},
-    url  : '<?php echo \Yii::$app->getUrlManager()->createUrl('business/vehicle/getkmpprice') ?>',
-    success  : function(response) {
-		$("#trips-vehicle_rent").val(response);
-        driverRent(response);
-    }
-    });
-  }
+function buyerAmount(product_id,id){
+  var splId=id.split("-"); 
+  var idexId=splId[2];
   
-}
+  var material= product_id;
+  var quantity = $("#tripproducts-productdetails-"+idexId+"-quantity").val();
+  quantity =quantity ?quantity:0;
 
-function driverRent(toatlRent){
-
-
-
-var driverId= $("#driver_id").val();
-
-
-if(typeof(toatlRent) == "undefined"){
-    toatlRent =  $("#trips-vehicle_rent").val();
-}
-console.log(driverId);
-console.log(toatlRent);
-if(typeof(toatlRent) != "undefined" && toatlRent !== null){
-if(toatlRent !="" && driverId !=""){
-
+  var merchant = $("#trips-buyer").val();
+  if(material){
    $.ajax({
     type     :'POST',
     cache    : false,
-    data: {driverId: driverId, 'toatlRent': toatlRent},
-    url  : '<?php echo \Yii::$app->getUrlManager()->createUrl('business/driver/gettripbata') ?>',
+    data: {material: material},
+    url  : '<?php echo \Yii::$app->getUrlManager()->createUrl('business/material/get-product-price') ?>',
     success  : function(response) {
-		$("#trips-driver_amount").val(response);
-		totalBuyersAmt();
-       
+		$("#tripproducts-productdetails-"+idexId+"-unit_price").val(response);
+		$("#tripproducts-productdetails-"+idexId+"-price").val(response*quantity);
+                 totalBuyersAmt();
     }
     });
   }
+
 }
-}
+
+
 
 
 function totalBuyersAmt(){
-var material_price =$("#trips-buyer_amount").val();
-var vehicle_rent =$("#trips-vehicle_rent").val();
-if(material_price !="" && vehicle_rent !=""){
-  var gTotal= parseFloat(material_price)+parseFloat(vehicle_rent);
-  $("#trips-buyer_amount_total").val(gTotal);
+    var grandTotal=0;
+    $( ".price" ).each(function() {
+        if(this.value)
+          grandTotal = parseFloat(grandTotal)+parseFloat(this.value);
+    });
+    $("#trips-buyer_amount_total").val(grandTotal);
+    $("#trips-buyer_amount").val(grandTotal);
 }
 
+function getProductTotal(id){
+    var splId=id.split("-"); 
+    var idexId=splId[2];
+    var quantity = $("#tripproducts-productdetails-"+idexId+"-quantity").val();
+    var unit_price=$("#tripproducts-productdetails-"+idexId+"-unit_price").val();
+    $("#tripproducts-productdetails-"+idexId+"-price").val(unit_price*quantity);
+    totalBuyersAmt();
 }
 
 </script>

@@ -9,7 +9,7 @@ use app\modules\business\models\CustomerDetails;
 /* @var $searchModel app\modules\business\models\TripsSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = 'Trips';
+$this->title = 'Sales';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 
@@ -50,66 +50,22 @@ $this->params['breadcrumbs'][] = $this->title;
             ['class' => 'yii\grid\SerialColumn'],
 
 	[
-		'label' => 'Date',
-		'attribute' => 'date_of_travel',
-		 'filter' => \yii\jui\DatePicker::widget(['dateFormat' => 'dd-MM-yyyy','model'=>$searchModel,
-        'attribute'=>'date_of_travel',]),
-		 'format' => 'html',
-		'value' => function ($searchModel,$key,$index){
-		return  date("d-m-Y",strtotime($searchModel->date_of_travel));			
-		},
- 	    ],
-
-	[
-	'label'=>'Merchant',
-    'attribute'=>"merchant",
-    'value' => 'merchants.name',
-	'filter' => ArrayHelper::map(app\modules\business\models\CustomerDetails::find()->where(['customer_type'=>1])->all(), 'id', 'name')
-	  ],
-	'merchant_amount', 
+        'label' => 'Date',
+        'attribute' => 'date_of_travel',
+        'filter' => \yii\jui\DatePicker::widget(['dateFormat' => 'dd-MM-yyyy','model'=>$searchModel,'attribute'=>'date_of_travel',]),
+        'format' => 'html',
+        'value' => function ($searchModel,$key,$index){
+        return  date("d-m-Y",strtotime($searchModel->date_of_travel));			
+        },
+        ],
 	[
 	'label'=>'Customer',
-    'attribute'=>"buyer",
-    'value' => 'buyers.name',
+        'attribute'=>"buyer",
+        'value' => 'buyers.name',
 	'filter' => ArrayHelper::map(app\modules\business\models\CustomerDetails::find()->where(['customer_type'=>2])->all(), 'id', 'name')
-	  ],
-	//'buyer_amount',
-	'vehicle_rent', 
-	
-	'buyer_amount_total',
-	 ['label'=>'Material',
-	    'attribute'=>"material_id",
-	    'value' => 'material.name'
-	  ],
-
-	 ['label'=>'Vehicle',
-    'attribute'=>"vehicle_id",
-    'value' => 'vehicles.name'
-	  ],
-	  ['label'=>'Driver',
-	    'attribute'=>"driver_id",
-	    'value' => 'driver.name',
-	    'filter' => ArrayHelper::map(app\modules\business\models\CustomerDetails::find()->where(['customer_type'=>3])->all(), 'id', 'name')
-	  ],
-	'kilometre',
-    
-	
-	     
-
-            // 'size',
-            // 'measurement_type',
-            // 'site_name',
-            // 'site_place',
-            // 'kilometre',
-            // 'vehicle_rent',
-            // 'driver_amount',
-            // 'merchant_amount',
-            // 'buyer_amount',
-            // 'buyer_amount_total',
-            // 'buyer_trip_sheet_number',
-            // 'seller_trip_sheet_number',
-
-            ['class' => 'yii\grid\ActionColumn'],
+        ],
+        'buyer_amount_total',
+        ['class' => 'yii\grid\ActionColumn'],
         ],
     ]); ?>
 

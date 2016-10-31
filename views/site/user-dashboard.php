@@ -120,39 +120,6 @@ echo $sum + $balance;
                         </div><!-- ./col -->
                         <div class="col-lg-3 col-xs-6">
                             <!-- small box -->
-                            <div class="small-box bg-yellow">
-                                <div class="inner">
-                                    <h3>
-<?php
-$balance = 0;
-$command = Yii::$app->db->createCommand(
-"SELECT sum(amount) FROM bur_balance_sheet 
-join bur_customer_details on bur_customer_details.id = bur_balance_sheet.customer_id
-where bur_balance_sheet.status='open' and customer_type=3");
-$sum = $command->queryScalar();
-
-$customers = app\modules\business\models\CustomerDetails::find()->where(['status' => 1,'customer_type'=>3])->all();
-foreach($customers as $customer)
-{
-  $closed_bill = app\modules\business\models\Transactions::find()->where(['status'=>'closed','customer_id'=>$customer->id])->orderBy(['id'=> SORT_DESC])->one();
-  if(isset($closed_bill->balance)) $balance += $closed_bill->balance;
-}
-
-echo $sum + $balance;
-?>                                         
-                                    </h3>
-                                    <p>
-                                        To Drivers
-                                    </p>
-                                </div>
-                                <div class="icon">
-                                    <i class="fa fa-rupee"></i>
-                                </div>
-				<?= Html::a('More info <i class="fa fa-arrow-circle-right"></i>', ['/business/bills/print-dues?id=3'], ['target' => '_blank', 'class' => 'small-box-footer']); ?>
-                            </div>
-                        </div><!-- ./col -->
-                        <div class="col-lg-3 col-xs-6">
-                            <!-- small box -->
                             <div class="small-box bg-red">
                                 <div class="inner">
                                     <h3>
@@ -174,87 +141,6 @@ echo $sum + $balance;
                     <div class="row">
                         <!-- Left col -->
                         <section class="col-lg-7 connectedSortable">
-
-			   <div class="nav-tabs-custom"><!-- .nav-tabs-custom -->
-                                <!-- Tabs within a box -->
-                                <ul class="nav nav-tabs pull-right">
-                                    <li><a href="#emp-notice" data-toggle="tab">Expired</a></li>
-                                    <li><a href="#stu-notice" data-toggle="tab">Next Month</a></li>
-				    <li class="active"><a href="#all-notice" data-toggle="tab">This Month</a></li>
-                                    <li class="pull-left header"><i class="fa fa-inbox"></i>Pending Renewals</li>
-                                </ul>
-                                <div class="tab-content">
-                                    <!-- Notice -->
-                                    <div class="tab-pane active" id="all-notice">
-					
-					<?php $empList = app\modules\business\models\VehicleParamDates::find()->where(["LIKE", "renewal_date", date('Y-m')])->all();
-					if(!empty($empList)) {
-						foreach($empList as $nl) :
-						?>
-					<div class="notice-main bg-light-blue">
-						<div class="notice-disp-date"><small class="label label-success"><i class="fa fa-calendar"></i> <?= (!empty($nl->renewal_date) ? Yii::$app->formatter->asDate($nl->renewal_date) : "Not Set"); ?></small>	
-						</div>
-						<div class="notice-body">
-							 <div class="notice-title"><?= Html::a($nl->vehicle->name, '#', ['style' => 'color:#FFF', 'class'=>'noticeModalLink', 'data-value'=>Url::to(['dashboard/notice/view-popup','id'=>$nl->renewal_date])]); ?>&nbsp; </div>
-							 <div class="notice-desc"><?= $nl->param->name; ?> has to be renewed this month</div>
-						</div>					          
-					</div>
-					<?php endforeach; 
-				     } else {
-						echo '<div class="box-header bg-warning"><div style="padding:5px">';
-						echo "No Notice....";
-						echo '</div></div>';
-				     }
-					?>
-				    </div>
-                                    <div class="tab-pane" id="stu-notice">
-					
-					<?php $noticeList = app\modules\business\models\VehicleParamDates::find()->where(["LIKE", "renewal_date", date('Y-m', strtotime('+1 month'))])->all();
-
-				    if(!empty($noticeList)) {
-					foreach($noticeList as $nl) :
-					?>
-					 <div class="notice-main bg-aqua">
-						<div class="notice-disp-date"><small class="label label-success"><i class="fa fa-calendar"></i> <?= (!empty($nl->renewal_date) ? Yii::$app->formatter->asDate($nl->renewal_date) : "Not Set"); ?></small>	
-						</div>
-						<div class="notice-body">
-							 <div class="notice-title"><?= Html::a($nl->vehicle->name, '#', ['style' => 'color:#FFF', 'class'=>'noticeModalLink', 'data-value'=>Url::to(['dashboard/notice/view-popup','id'=>$nl->renewal_date])]); ?>&nbsp; </div>
-							 <div class="notice-desc"><?= $nl->param->name; ?> </div>
-						</div>					          
-					</div>
-					<?php endforeach;
-				      } else {
-						echo '<div class="box-header bg-warning"><div style="padding:5px">';
-						echo "No Notice....";
-						echo '</div></div>';
-				      }
-					?>
-				    </div>
-				    <div class="tab-pane" id="emp-notice">
-					
-					<?php $noticeList = app\modules\business\models\VehicleParamDates::find()->where(["<", "renewal_date", date('Y-m')])->all();
-
-				    if(!empty($noticeList)) {
-					foreach($noticeList as $nl) :
-					?>
-					 <div class="notice-main bg-teal">
-						<div class="notice-disp-date">				        		<small class="label label-success"><i class="fa fa-calendar"></i> <?= (!empty($nl->renewal_date) ? Yii::$app->formatter->asDate($nl->renewal_date) : "Not Set"); ?></small>	
-						</div>
-						<div class="notice-body">
-							 <div class="notice-title"><?= Html::a($nl->vehicle->name, '#', ['style' => 'color:#FFF', 'class'=>'noticeModalLink', 'data-value'=>Url::to(['dashboard/notice/view-popup','id'=>$nl->renewal_date])]); ?>&nbsp; </div>
-							 <div class="notice-desc"><?= $nl->param->name; ?> </div>
-						</div>					          
-					</div>
-					<?php endforeach;
-				      } else {
-						echo '<div class="box-header bg-warning"><div style="padding:5px">';
-						echo "No Notice....";
-						echo '</div></div>';
-				      }
-					?>
-				    </div>
-                                </div> <!--  /.tab-content -->
-                            </div><!-- /.nav-tabs-custom -->
 
 			    <!-- Calendar -->
                             <div class="box box-info">

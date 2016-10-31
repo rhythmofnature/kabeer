@@ -1,4 +1,4 @@
-<?php
+<?php exit;
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 use yii\helpers\ArrayHelper;
@@ -11,7 +11,7 @@ use kartik\widgets\Select2;
 use miloschuman\highcharts\Highcharts;
 use yii\web\JsExpression;
 
-$this->title = Yii::t('app', 'Vehicle weekly report');
+$this->title = Yii::t('app', 'Business weekly report');
 
 ?>
 <!---Start Select Fees Collection Category---> 
@@ -28,13 +28,7 @@ $this->title = Yii::t('app', 'Vehicle weekly report');
 		],
 	]); ?>
 
-    <div class="col-md-3">
-		  <?= $form->field($model, 'vehicle_id')
-        ->dropDownList(
-            ArrayHelper::map(VehicleDetails::find()->where(['status'=>1])->all(), 'id', 'name'),
-            ['prompt'=>'Select a vehicle','style'=>'width:200px','onchange'=>'this.form.submit()']
-        );?>
-	</div>
+
 	
 	<div class="col-md-3">	
 	  <?php
@@ -85,6 +79,10 @@ $this->title = Yii::t('app', 'Vehicle weekly report');
     $chart_vehicle[] = array(date("d-m",strtotime($date)),$data['rent'] - $data['driver'] - $data['expense']);
     $chart_business[] = array(date("d-m",strtotime($date)),$data['customer'] - $data['merchant'] - $data['rent']);
   }
+ }else 
+ {
+ $chart_vehicle = array();
+ $chart_business = array();
  }
 
 

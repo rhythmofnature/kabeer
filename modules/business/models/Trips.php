@@ -42,7 +42,7 @@ class Trips extends \yii\db\ActiveRecord
     {
         return [
             self::SCENARIO_MERCHANT => ['date_of_travel', 'merchant','merchant_amount','seller_trip_sheet_number','ready_merchant','site_name'],
-            self::SCENARIO_BUYER => ['username', 'email', 'password'],
+            self::SCENARIO_BUYER => ['username', 'email', 'password','date_of_travel','buyer_amount','buyer_amount_total','buyer'],
         ];
     }    
 
@@ -53,7 +53,9 @@ class Trips extends \yii\db\ActiveRecord
     {
      return [
      [['date_of_travel', 'merchant','merchant_amount','ready_merchant'], 'required', 'on' => self::SCENARIO_MERCHANT],
-     [['seller_trip_sheet_number','site_name'],'safe', 'on' => self::SCENARIO_MERCHANT]
+     [['seller_trip_sheet_number','site_name'],'safe', 'on' => self::SCENARIO_MERCHANT],
+     [['date_of_travel', 'buyer','buyer_amount_total'], 'required', 'on' => self::SCENARIO_BUYER],
+     [['buyer_amount'],'safe', 'on' => self::SCENARIO_BUYER],
      ];
         /*return [
             [['date_of_travel','merchant','buyer', 'vehicle_id', 'driver_id', 'material_id', 'size', 'measurement_type', 
@@ -88,8 +90,8 @@ class Trips extends \yii\db\ActiveRecord
             'vehicle_rent' => 'Vehicle Rent',
             'driver_amount' => 'Driver Amount',
             'merchant_amount' => 'Purchase Amount',
-            'buyer_amount' => 'Customer Amount',
-            'buyer_amount_total' => 'Customer Amount Total',
+            'buyer_amount' => 'Total',
+            'buyer_amount_total' => 'Total',
             'buyer_trip_sheet_number' => 'Customer Trip Sheet Number',
             'seller_trip_sheet_number' => 'Reciept No.',
             'ready_merchant' =>'Ready cash to merchant',

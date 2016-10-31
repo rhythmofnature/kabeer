@@ -71,25 +71,10 @@ height:50px']); ?></td>
             echo '<col class="col-xs-2">';
             echo '<tr>';
             echo '<th width="55px;">SI No.</th>';
-            echo '<th>Material</th>';
-            echo '<th width="80px;">Quantity</th>';
-            echo '<th  width="100px;">Vehicle Number</th>';
+            echo '<th>Product</th>';
             
             
             echo '<th width="120px;">Date</th>';
-//             if($model->customer_type==1){
-//             echo '<th>Trip Sheet No: </th>';
-//             }
-            
-            if($model->customer_type==3){
-            echo '<th>To </th>';
-            }
-            
-            if($model->customer_type==3 || $model->customer_type==2){
-            echo '<th>Site Name </th>';
-//             echo '<th>Trip Sheet No: </th>';
-            }
-
             echo '<th>Amount</th>';
             echo '</tr>';
             if($feesDetails){
@@ -99,61 +84,41 @@ height:50px']); ?></td>
             echo '<td>'.($key+1).'</td>';	
             if($value->trip_id==$trip_id){
             echo '<td>Advance</td>';
-            echo '<td align="center">-</td>';
-            echo '<td>-</td>';
             echo '<td>'.date("d-m-Y",strtotime($value['created_on'])).'</td>';                
             }else{
-            echo '<td>'.$value->trip->material['name'].'</td>';
-            echo '<td align="center">'.$value->trip['size'].' '.MaterialTypes::$measurementType[$value->trip->material['measurement_type']].'</td>';
-            echo '<td>'.$value->trip->vehicles['vehicle_number'].'</td>';
-            echo '<td>'.date("d-m-Y",strtotime($value['created_on'])).'</td>';
-            }
-
-//             if($model->customer_type==1){
-//             echo '<td>'.$value->trip['buyer_trip_sheet_number'].'</td>';
-//             }
-
-            if($model->customer_type==3){
-            if($value->trip_id!=$trip_id){
-            echo '<td>'.$value->trip->buyers['name'].'</td>';
-            }
-            }
             
-            if($model->customer_type==3 || $model->customer_type==2){
-            if($value->trip_id!=$trip_id){
-            echo '<td>'.$value->trip['site_name'].'</td>';
+            $products = '';
+            if($value->materials)
+            {
+                foreach($value->materials as $material)
+                {
+                $products .= $material->material->name.' - '.$material['unit_price'].' X '.$material['quantity'].' = '.$material['price'].', ';
+                }
+                $products = rtrim($products,', ');
+            }else $products = "Purchase";	            
+            
+            
+             echo '<td>'.$products.'</td>';
+             echo '<td>'.date("d-m-Y",strtotime($value['created_on'])).'</td>';
             }
-//             echo '<td>'.$value->trip['seller_trip_sheet_number'].'</td>';
-            }
+
 
             echo '<td  align="center">'.$value['amount'].'</td>';
             echo '</tr>';
             
-			if($value['amount'] > 0) $totalAmount += $value['amount'];
-			else $advance_total += $value['amount'];            
+            if($value['amount'] > 0) $totalAmount += $value['amount'];
+            else $advance_total += $value['amount'];            
             }
 
-            $colspan=5;
-            if($model->customer_type==2){
-            $colspan=6;
-            }
-            if($model->customer_type==3){
-            $colspan=7;
-            }
+            $colspan=3;
 
             echo '<tr><th colspan='.$colspan.' class="text-right col-md-9" align="left">Total</th><td  
 align="center"><b>'.$totalAmount.'</b></td></tr>';
             }else{
-            echo "<tr><td colspan=7> No trip to show</td></tr>";
+            echo "<tr><td colspan=4> No trip to show</td></tr>";
             }
             $grandTotal = $totalAmount+$previous_balance;
-            $colspan=5;
-            if($model->customer_type==2){
-            $colspan=6;
-            }
-            if($model->customer_type==3){
-            $colspan=7;
-            }
+            $colspan=3;
 
             echo '<tr><th colspan='.$colspan.' class="text-right col-md-9"  align="left">Previous Balance</th><td  
 align="center">'.$previous_balance.'</td></tr>';

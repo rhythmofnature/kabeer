@@ -25,10 +25,6 @@ $this->params['breadcrumbs'][] = $this->title;
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
             'date',
-			['label'=>'Vehicle',
-			'attribute'=>"vehicle_id",
-			'value' => 'vehicles.name'
-			  ],
             'description',
             'amount',
 
