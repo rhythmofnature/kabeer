@@ -24,6 +24,7 @@ use Yii;
  * @property string $buyer_amount_total
  * @property string $buyer_trip_sheet_number
  * @property string $seller_trip_sheet_number
+ testing
  */
 class Trips extends \yii\db\ActiveRecord
 {
