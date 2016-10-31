@@ -155,7 +155,8 @@ class Trips extends \yii\db\ActiveRecord
 //                         print_r($trans_obj_new->getErrors());
                         $lastTransaction->delete();
                     }
-                    
+                     
+                     
 		}
 		
                 }
