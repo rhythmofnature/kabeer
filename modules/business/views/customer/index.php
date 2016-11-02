@@ -52,10 +52,9 @@ $this->params['breadcrumbs'][] = $this->title;
             // 'status',
 	    [
 		    'class' => 'yii\grid\ActionColumn',
-		    'template' => '{view} {update} {delete}',
+		    'template' => '{view} {update} {delete} {prices}',
 		    'buttons' => [
 			    'prices' => function ($url,$model,$key) {
-				//return Html::a('<span class="fa fa-rupee"></span>',Yii::$app->homeUrl.'/business/customer/prices/?id='.$model->id);
 				return Html::a('<i class="fa fa-rupee"></i>',['/business/customer/price','id'=>$model->id]);
 			    },
 		    ],
