@@ -203,6 +203,61 @@ class TripsController extends Controller
             
             
     }
+    
+    
+    public function actionReturnList()
+    {
+        $searchModel = new TripsSearch();
+        $dataProvider = $searchModel->searchReturn(Yii::$app->request->queryParams,2);
+
+        return $this->render('returnlist', [
+            'searchModel' => $searchModel,
+            'dataProvider' => $dataProvider,
+        ]);
+    }
+    public function actionReturn(){
+    
+        
+        $model = new Trips(['scenario' => Trips::SCENARIO_BUYER]);
+        $tripProducts = new TripProducts();
+        $balanceSheet = new BalanceSheet();
+        if (Yii::$app->request->post()) {
+//                             print_r($_POST);exit;
+                            $model = new Trips(['scenario' => Trips::SCENARIO_BUYER]);
+                            $model->load(Yii::$app->request->post());
+                            $model->date_of_travel = date("Y-m-d H:i:s",strtotime($model->date_of_travel));
+                            $model->returns='yes';
+                            $model->save();
+//                             print_r($model->attributes);exit;
+                            $tripId=$model->id;
+                            
+                           
+           
+           
+                            foreach($_POST['TripProducts']['ProductDetails'] as $val){
+                                $TripProducts = new TripProducts();
+//                                 $TripProducts->product_id = $val->$val;
+                                 $TripProducts->product_id = $val['product_id'];
+                                 $TripProducts->unit_price = $val['unit_price'];
+                                 $TripProducts->quantity = $val['quantity'];
+                                 $TripProducts->price = $val['price'];
+                                 $TripProducts->trip_id = $tripId;
+                                 
+                                 $TripProducts->save();
+
+                            }
+//                              print_r($_POST['TripProducts']);exit;
+
+			
+            	return $this->redirect(['return-list']);
+			
+        } else {
+            return $this->render('return', [
+                'model' => $model,'tripProducts'=>array()
+            ]);
+        }
+        
+    }
 
     /**
      * Finds the Trips model based on its primary key value.

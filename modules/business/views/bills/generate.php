@@ -92,8 +92,8 @@ $this->params['breadcrumbs'][] = ['label' => $this->title];
 			
 $closed_bill=Transactions::find()->where(['status'=>'closed','customer_id'=>$model->id])->orderBy(['id'=> SORT_DESC])->one();
 $previous_balance = isset($closed_bill->balance)?$closed_bill->balance:0;
-$totalAmount = $totalPay = $advance_total = 0;
-$feesDetails = BalanceSheet::find()->with(['materials'])->where(['status' => 'open', 
+$totalAmount = $totalPay = $advance_total = $return_total=0;
+$feesDetails = BalanceSheet::find()->with(['materials','trip'])->where(['status' => 'open', 
 'customer_id'=>$model->id])->all();
 	echo '<table class="table table-bordered tbl-pay-fees">';
 	echo '<col class="col-xs-1">';
@@ -110,7 +110,7 @@ $feesDetails = BalanceSheet::find()->with(['materials'])->where(['status' => 'op
 	if($feesDetails){
 	 $trip_id =Yii::$app->params['tripId'];
 	foreach($feesDetails as $key=>$value) { 
-                //print_r($value->trip);
+//                 print_r($value->trip->returns);
 		echo '<tr>';
 		echo '<td>'.($key+1).'</td>';	
 		if($value->trip_id==$trip_id){
@@ -119,11 +119,16 @@ $feesDetails = BalanceSheet::find()->with(['materials'])->where(['status' => 'op
 		}else{
 		
 		    $products = '';
+		    if($value->trip->returns=="yes"){
+                       $products .="<b>Return :</b> ";
+                       }
+		    $returnProducts='';
 		    if($value->materials)
 		    {
 		     foreach($value->materials as $material)
 		     {
-		      $products .= $material->material->name.' - '.$material['unit_price'].' X '.$material['quantity'].' = '.$material['price'].', ';
+                       
+		       $products .= $material->material->name.' - '.$material['unit_price'].' X '.$material['quantity'].' = '.$material['price'].', ';
 		     }
 		     $products = rtrim($products,', ');
 		    }else $products = "Purchase";
@@ -136,8 +141,16 @@ $feesDetails = BalanceSheet::find()->with(['materials'])->where(['status' => 'op
 		echo '<td>'.abs($value['amount']).'</td>';
 		echo '</tr>';
 		
-		if($value['amount'] > 0) $totalAmount+=$value['amount'];
-		else $advance_total += $value['amount'];		
+		if($value['amount'] > 0) 
+		{
+		$totalAmount+=$value['amount'];
+                }else{
+                    if($value->trip->returns=="yes"){
+                        $return_total += $value['amount'];
+                    }else{
+                        $advance_total += $value['amount'];
+                    }
+		}
 		
 		
 	}
@@ -155,11 +168,21 @@ $feesDetails = BalanceSheet::find()->with(['materials'])->where(['status' => 'op
 	
 	echo '<tr><th colspan='.$colspan.' class="text-right col-md-9">Grand Amount</th><td>'.$grandTotal.'</td></tr>';
 	
-    if($advance_total)
+    if($advance_total>0)
     {
      echo '<tr><th colspan='.$colspan.' class="text-right col-md-9">Deducting Advance</th><td>'.abs($advance_total).'</td></tr>';
-     echo '<tr><th colspan='.$colspan.' class="text-right col-md-9">Effective Amount</th><td>'.($grandTotal + $advance_total).'</td></tr>';
+     echo '<tr><th colspan='.$colspan.' class="text-right col-md-9">Effective Amount</th><td>'.($grandTotal=$grandTotal + 
+$advance_total).'</td></tr>';
     }	
+    
+     if($return_total)
+    {
+     echo '<tr><th colspan='.$colspan.' class="text-right col-md-9">Deducting Returns</th><td>'.abs($return_total).'</td></tr>';
+      echo '<tr><th colspan='.$colspan.' class="text-right col-md-9">Effective Amount</th><td>'.($grandTotal=$grandTotal + 
+$return_total).'</td></tr>';
+    }	
+    
+    
 	
 	
 $open_bill=Transactions::findOne(['status'=>'open','customer_id'=>$model->id]);

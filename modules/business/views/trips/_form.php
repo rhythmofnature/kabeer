@@ -131,7 +131,18 @@ use unclead\multipleinput\MultipleInput;
         
         <div class="col-xs-12 col-sm-6 col-lg-6">
         <?= $form->field($model, 'buyer_amount_total')->textInput(['maxlength' => 7,'style'=>'width:500px']) ?>
+        
         <?php echo $form->field($model, 'buyer_amount')->textInput(['maxlength' => 7,'style'=>'width:500px'])->hiddenInput()->label(false) ?>
+        </div>
+        
+         <div class="col-xs-12 col-sm-6 col-lg-6">
+         <?php 
+         if(!isset($model->ready_buyer))
+            $model->ready_buyer='no';
+         echo $form->field($model, 'ready_buyer')
+        ->dropDownList(array('no'=>'No','yes'=>'Yes'),
+        ['prompt'=>'Is it ready cash payment','style'=>'width:500px']
+        ); ?>
         </div>
        
     </div>
@@ -169,7 +180,7 @@ function buyerAmount(product_id,id){
    $.ajax({
     type     :'POST',
     cache    : false,
-    data: {material: material},
+    data: {material: material,merchant:merchant},
     url  : '<?php echo \Yii::$app->getUrlManager()->createUrl('business/material/get-product-price') ?>',
     success  : function(response) {
 		$("#tripproducts-productdetails-"+idexId+"-unit_price").val(response);

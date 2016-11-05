@@ -19,6 +19,7 @@ use yii\helpers\Html;
         <li>
 		<?= Html::a('<i class="fa fa-angle-double-right"></i> Purchase Info',['/business/shopping'])  ?>
 		<?= Html::a('<i class="fa fa-angle-double-right"></i> Selling Info',['/business/trips'])  ?>
+		<?= Html::a('<i class="fa fa-angle-double-right"></i> Returns',['/business/trips/return-list'])  ?>
 		<?= Html::a('<i class="fa fa-angle-double-right"></i> Bill Generation',['/business/bills'])  ?>
 		<?= Html::a('<i class="fa fa-angle-double-right"></i> Invoices',['/business/transaction'])  ?>
 		<?= Html::a('<i class="fa fa-angle-double-right"></i> Advances',['/business/customer/collectadvance'])  ?>

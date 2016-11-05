@@ -43,7 +43,7 @@ class Trips extends \yii\db\ActiveRecord
     {
         return [
             self::SCENARIO_MERCHANT => ['date_of_travel', 'merchant','merchant_amount','seller_trip_sheet_number','ready_merchant','site_name'],
-            self::SCENARIO_BUYER => ['username', 'email', 'password','date_of_travel','buyer_amount','buyer_amount_total','buyer'],
+            self::SCENARIO_BUYER => ['username', 'email', 'password','date_of_travel','buyer_amount','buyer_amount_total','buyer','ready_buyer'],
         ];
     }    
 
@@ -54,8 +54,8 @@ class Trips extends \yii\db\ActiveRecord
     {
      return [
      [['date_of_travel', 'merchant','merchant_amount','ready_merchant'], 'required', 'on' => self::SCENARIO_MERCHANT],
-     [['seller_trip_sheet_number','site_name'],'safe', 'on' => self::SCENARIO_MERCHANT],
-     [['date_of_travel', 'buyer','buyer_amount_total'], 'required', 'on' => self::SCENARIO_BUYER],
+     [['seller_trip_sheet_number','site_name','returns'],'safe', 'on' => self::SCENARIO_MERCHANT],
+     [['date_of_travel', 'buyer','buyer_amount_total','ready_buyer'], 'required', 'on' => self::SCENARIO_BUYER],
      [['buyer_amount'],'safe', 'on' => self::SCENARIO_BUYER],
      ];
         /*return [
@@ -164,6 +164,10 @@ class Trips extends \yii\db\ActiveRecord
 		/*  ******Saving buyers details *******/
 		$buyer_id=$this->buyer;
 		$buyer_amt=$this->buyer_amount_total;
+		if($this->returns=="yes"){
+                    $buyer_amt = $buyer_amt*-1;
+                    
+		}
 		$ready_buyer = $this->ready_buyer;
 		if($buyer_id)
 		{

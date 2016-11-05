@@ -62,9 +62,9 @@ height:50px']); ?></td>
 
 
             $previous_balance = isset($transaction->balance)?$transaction->previous_balance:0;
-            $totalAmount = $totalPay = $advance_total = 0;
+            $totalAmount = $totalPay = $advance_total =$return_total= 0;
             $sheet_ids =$sheet_ids?$sheet_ids:0;
-            $feesDetails = BalanceSheet::find()->where("id in($sheet_ids) AND customer_id='$model->id'")->all();
+            $feesDetails = BalanceSheet::find()->with(['materials','trip'])->where("id in($sheet_ids) AND customer_id='$model->id'")->all();
             echo '<table class="table table-border" style="width:100%;">';
             echo '<col class="col-xs-1">';
             echo '<col class="col-xs-9">';
@@ -88,6 +88,9 @@ height:50px']); ?></td>
             }else{
             
             $products = '';
+            if($value->trip->returns=="yes"){
+                       $products .="<b>Return :</b> ";
+                       }
             if($value->materials)
             {
                 foreach($value->materials as $material)
@@ -103,11 +106,19 @@ height:50px']); ?></td>
             }
 
 
-            echo '<td  align="center">'.$value['amount'].'</td>';
+            echo '<td  align="center">'.abs($value['amount']).'</td>';
             echo '</tr>';
             
-            if($value['amount'] > 0) $totalAmount += $value['amount'];
-            else $advance_total += $value['amount'];            
+           if($value['amount'] > 0) 
+		{
+		$totalAmount+=$value['amount'];
+                }else{
+                    if($value->trip->returns=="yes"){
+                        $return_total += $value['amount'];
+                    }else{
+                        $advance_total += $value['amount'];
+                    }
+		}         
             }
 
             $colspan=3;
@@ -129,8 +140,16 @@ align="center"><b>'.$grandTotal.'</b></td></tr>';
 			if($advance_total)
 			{
 			echo '<tr><th colspan='.$colspan.' class="text-right col-md-9" align="left">Deducting Advance</th><td align="center">'.abs($advance_total).'</td></tr>';
-			echo '<tr><th colspan='.$colspan.' class="text-right col-md-9" align="left">Effective Amount</th><td align="center">'.($grandTotal + $advance_total).'</td></tr>';
+			echo '<tr><th colspan='.$colspan.' class="text-right col-md-9" align="left">Effective Amount</th><td 
+align="center">'.($grandTotal=$grandTotal + $advance_total).'</td></tr>';
 			}
+			
+			 if($return_total)
+    {
+     echo '<tr><th colspan='.$colspan.' class="text-right col-md-9">Deducting Returns</th><td>'.abs($return_total).'</td></tr>';
+      echo '<tr><th colspan='.$colspan.' class="text-right col-md-9">Effective Amount</th><td>'.($grandTotal=$grandTotal + 
+$return_total).'</td></tr>';
+    }	
 
             echo '</table>';
 

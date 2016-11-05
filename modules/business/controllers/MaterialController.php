@@ -5,6 +5,7 @@ namespace app\modules\business\controllers;
 use Yii;
 use app\modules\business\models\MaterialTypes;
 use app\modules\business\models\MaterialTypesSearch;
+use app\modules\business\models\CustomerMaterialPrice;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -64,7 +65,7 @@ class MaterialController extends Controller
         $model->measurement_type = 1;
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['index']);
+            return $this->redirect(['view', 'id' => $model->id]);
         } else {
             return $this->render('create', [
                 'model' => $model,
@@ -83,7 +84,7 @@ class MaterialController extends Controller
         $model = $this->findModel($id);
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['index']);
+            return $this->redirect(['view', 'id' => $model->id]);
         } else {
             return $this->render('update', [
                 'model' => $model,
@@ -118,5 +119,17 @@ class MaterialController extends Controller
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');
         }
+    }
+    
+    public function actionGetProductPrice(){
+        $id=$_REQUEST['material'];
+        $merchant=$_REQUEST['merchant'];
+        if($merchant){
+            $reuslt= CustomerMaterialPrice::find()->where(['customer_id'=>$merchant,'material_id'=>$id])->one();
+            if(isset($reuslt->price))
+                return $reuslt->price;
+        }
+        $model = MaterialTypes::findOne($id);
+        return $model->price;
     }
 }
