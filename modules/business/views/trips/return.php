@@ -47,7 +47,7 @@ $this->params['breadcrumbs'][] = $this->title;
                     'yearRange'=>'1900:'.(date('Y')+1)],
                     'options'=>[
                     'class'=>'form-control',
-                    'placeholder' => $model->getAttributeLabel('date_of_travel'),'style'=>'width:500px'
+                    'placeholder' => $model->getAttributeLabel('date_of_travel'),'style'=>'width:400px'
                 ],]) ?>
         </div>
         
@@ -55,7 +55,7 @@ $this->params['breadcrumbs'][] = $this->title;
         <?php
            echo $form->field($model, 'buyer')->widget(Select2::classname(), [
             'data' => ArrayHelper::map(CustomerDetails::find()->where(['status'=>1,'customer_type'=>2])->all(), 'id', 'name'),
-            'options' => ['placeholder' => 'Select Customer ...','style'=>'width:500px','onChange'=>'buyerAmount();'],
+            'options' => ['placeholder' => 'Select Customer ...','style'=>'width:400px','onChange'=>'buyerAmount();'],
             'pluginOptions' => [
             'allowClear' => true
             ],
@@ -65,7 +65,7 @@ $this->params['breadcrumbs'][] = $this->title;
         <?php /*echo  $form->field($model, 'merchant')
         ->dropDownList(
         ArrayHelper::map(CustomerDetails::find()->where(['status'=>1,'customer_type'=>1])->all(), 'id', 'name'),
-        ['prompt'=>'Select Merchant','style'=>'width:500px','onChange'=>'merchantAmount();']
+        ['prompt'=>'Select Merchant','style'=>'width:400px','onChange'=>'merchantAmount();']
         );*/?>
         </div>
     </div>
@@ -91,7 +91,7 @@ $this->params['breadcrumbs'][] = $this->title;
             'title' => 'Products',
             'defaultValue' => 1,
              'options' => ['placeholder' => 'Select Customer 
-...','style'=>'width:500px','onChange'=>'buyerAmount(this.value,this.id);','prompt'=>'Select'],
+...','style'=>'width:400px','onChange'=>'buyerAmount(this.value,this.id);','prompt'=>'Select'],
             'items' => 
               $products
             
@@ -133,8 +133,8 @@ $this->params['breadcrumbs'][] = $this->title;
     <div class="col-xs-12 col-lg-12 no-padding">
         
         <div class="col-xs-12 col-sm-6 col-lg-6">
-        <?= $form->field($model, 'buyer_amount_total')->textInput(['maxlength' => 7,'style'=>'width:500px']) ?>
-        <?php echo $form->field($model, 'buyer_amount')->textInput(['maxlength' => 7,'style'=>'width:500px'])->hiddenInput()->label(false) ?>
+        <?= $form->field($model, 'buyer_amount_total')->textInput(['maxlength' => 7,'style'=>'width:400px']) ?>
+        <?php echo $form->field($model, 'buyer_amount')->textInput(['maxlength' => 7,'style'=>'width:400px'])->hiddenInput()->label(false) ?>
         </div>
        
     </div>

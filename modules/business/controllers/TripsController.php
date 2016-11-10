@@ -225,6 +225,7 @@ class TripsController extends Controller
 //                             print_r($_POST);exit;
                             $model = new Trips(['scenario' => Trips::SCENARIO_BUYER]);
                             $model->load(Yii::$app->request->post());
+                            $model->ready_buyer = 'no';
                             $model->date_of_travel = date("Y-m-d H:i:s",strtotime($model->date_of_travel));
                             $model->returns='yes';
                             $model->save();
