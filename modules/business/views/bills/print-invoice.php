@@ -16,18 +16,18 @@ use app\modules\business\models\MaterialTypes;
 <?php $orgData = \app\models\Organization::find()->asArray()->one(); ?>
 
 <table class="table table-bordered table-main">
-	<!--<tr>
+	<tr>
 		<td colspan=3 class="text-left padding-left padding-right" style="border-bottom:1px solid #000;height:80px">
 		<table>
 			<tr>
-				<td rowspan=2><?php echo Html::img(Yii::$app->urlManager->createUrl('/site/loadimage'), ['style'=>'width:70px; 
+				<td rowspan=2 width="25%"><?php echo Html::img(Yii::$app->urlManager->createUrl('/site/loadimage'), ['style'=>'width:70px; 
 height:50px']); ?></td>
-				<td class="text-left org-title"><?php //echo $orgData['org_name']; ?></td>
+				<td class="text-left org-title"><?php echo $orgData['org_name']; ?></td>
 			</tr>
-			<tr><td class="text-left org-address"><?php //echo $orgData['org_address_line1']; ?></td></tr>
+			<tr><td class="text-left org-address"><?php echo $orgData['org_address_line1']; ?></td></tr>
 		</table>
 		</td>
-	</tr>-->
+	</tr>
 
 
 	
@@ -35,19 +35,15 @@ height:50px']); ?></td>
         <td colspan=3 class="text-left padding-left"><?php echo "<b>".$model->getAttributeLabel('name')." : </b>".$model->name;?></td>
         </tr>
         
-        <tr>
+        <!--<tr>
         <td colspan=3 class="text-left padding-left"><?php echo "<b>".$model->getAttributeLabel('address')." : </b>".$model->address;?></td>
-        </tr>
+        </tr>-->
         
         <tr>
-        <td class="text-left padding-left"><?php echo "<b>".$model->getAttributeLabel('phone')." : </b>".$model->phone; ?></td>
-        
-        <td class="text-left padding-left"><?php echo Html::img(Yii::$app->urlManager->createUrl('/site/loadimage'), ['style'=>'width:70px; 
-height:50px']); ?></td>
-<td></td>
+        <td class="text-left padding-left" colspan=3><?php echo "<b>".$model->getAttributeLabel('phone')." : </b>".$model->phone; ?></td>
         </tr>
         <tr>
-        <th colspan=3 style="padding:1%;" class="border-none">Trip Details</th>
+        <th colspan=3 style="padding:1%;" class="border-none">Invoice Details</th>
         </tr>
         
         <tr>
@@ -70,7 +66,7 @@ height:50px']); ?></td>
             echo '<col class="col-xs-9">';
             echo '<col class="col-xs-2">';
             echo '<tr>';
-            echo '<th width="55px;">SI No.</th>';
+            echo '<th width="55px;">#</th>';
             echo '<th>Product</th>';
             
             
@@ -146,8 +142,8 @@ align="center">'.($grandTotal=$grandTotal + $advance_total).'</td></tr>';
 			
 			 if($return_total)
     {
-     echo '<tr><th colspan='.$colspan.' class="text-right col-md-9">Deducting Returns</th><td>'.abs($return_total).'</td></tr>';
-      echo '<tr><th colspan='.$colspan.' class="text-right col-md-9">Effective Amount</th><td>'.($grandTotal=$grandTotal + 
+     echo '<tr><th colspan='.$colspan.' class="text-right col-md-9">Deducting Returns</th><td align="center">'.abs($return_total).'</td></tr>';
+      echo '<tr><th colspan='.$colspan.' class="text-right col-md-9">Effective Amount</th><td align="center">'.($grandTotal=$grandTotal + 
 $return_total).'</td></tr>';
     }	
 

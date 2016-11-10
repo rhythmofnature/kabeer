@@ -34,6 +34,11 @@
  * used this css in print fees receipt.
  */
 
+body{
+
+    font-size:10px;
+}
+
 #pcr .table {
 	width:70%;
 	border:1px solid black;
@@ -43,7 +48,7 @@
 	border:none;
 }
 .table-border td,th {
-	border:1px solid black;
+	border:1px solid #ebe3e1;
 }
 .border-none {
 	border:none;
@@ -61,7 +66,7 @@
 	vertical-align:middle;
 } 
 .org-title {
-	font-size:22px;
+	font-size:15px;
 	font-weight:bold;
 	
 }
