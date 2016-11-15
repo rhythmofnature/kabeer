@@ -59,7 +59,7 @@ class CustomerDetailsSearch extends CustomerDetails
             'id' => $this->id,
             'customer_type' => $this->customer_type,
         ]);
-		$query->where(['<>', 'customer_type',3]);
+        //$query->where(['<>', 'customer_type',3]);
         $query->andFilterWhere(['like', 'name', $this->name])
             ->andFilterWhere(['like', 'place', $this->place])
             ->andFilterWhere(['like', 'address', $this->address])
