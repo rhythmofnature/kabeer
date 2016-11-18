@@ -38,7 +38,7 @@ use app\modules\business\models\VehicleDetails;
     </div>
     
    <div class="col-xs-12 col-sm-6 col-lg-6">
-    <?= $form->field($model,'description')->textInput(['maxlength' => 10, 'placeholder' => 
+    <?= $form->field($model,'description')->textInput(['maxlength' => 100, 'placeholder' => 
 'description','style'=>'width:300px']) 
     ?>
     </div>   
