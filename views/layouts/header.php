@@ -15,7 +15,7 @@ Yii::$app->name = "Kabeer";
 
 <header class="header">
 
-<?= Html::a(Html::img(Yii::$app->request->baseUrl.'/images/buraq.png', ['height'=>'100px']), Yii::$app->homeUrl, ['class' => 
+<?= Html::a(Html::img(Yii::$app->request->baseUrl.'/images/buraq.png', ['height'=>'90px','width'=>'120px','style'=>'padding-top:5px']), Yii::$app->homeUrl, ['class' => 
 'logo']) ?>
 
 <nav class="navbar navbar-static-top" role="navigation">

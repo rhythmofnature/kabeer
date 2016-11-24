@@ -15,13 +15,12 @@ use app\modules\business\models\MaterialTypes;
 <div id="pcr">
 <?php $orgData = \app\models\Organization::find()->asArray()->one(); ?>
 
-<table class="table table-bordered table-main">
+<table >
 	<tr>
 		<td colspan=3 class="text-left padding-left padding-right" style="border-bottom:1px solid #000;height:80px">
 		<table>
 			<tr>
-				<td rowspan=2 width="25%"><?php echo Html::img(Yii::$app->urlManager->createUrl('/site/loadimage'), ['style'=>'width:70px; 
-height:50px']); ?></td>
+				<td rowspan=2 width="25%"><?php echo Html::img(Yii::$app->urlManager->createUrl('/site/loadimage'), []); ?></td>
 				<td class="text-left org-title"><?php echo $orgData['org_name']; ?></td>
 			</tr>
 			<tr><td class="text-left org-address"><?php echo $orgData['org_address_line1']; ?></td></tr>
