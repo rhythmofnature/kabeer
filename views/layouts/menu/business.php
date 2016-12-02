@@ -33,7 +33,7 @@ use yii\helpers\Html;
 	<?= Html::a('<i class="fa fa-bar-chart"></i> <span>Report Center</span> <i class="fa fa-angle-left pull-right"></i>', ['#'])  ?>
         <ul class="treeview-menu">
         <li>
-
+		<?= Html::a('<i class="fa fa-angle-double-right"></i> Business in a day',['/business/reports/daily'])  ?>
 		<?= Html::a('<i class="fa fa-angle-double-right"></i> Business in a week',['/business/reports/vehiclew'])  ?>
 		<?= Html::a('<i class="fa fa-angle-double-right"></i> Business in a month',['/business/reports/vehiclem'])  ?>
 	    </li>

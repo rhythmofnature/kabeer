@@ -55,5 +55,10 @@ class TripProducts extends \yii\db\ActiveRecord
     {
         return $this->hasOne(MaterialTypes::className(), ['id' => 'product_id']);
     }
+    
+    public function getTrip()
+    {
+        return $this->hasOne(Trips::className(), ['id' => 'trip_id']);
+    }    
 }
 
