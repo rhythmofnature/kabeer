@@ -33,7 +33,7 @@ class ReportsController extends Controller
        $model = new Trips;
       
        $model->attributes = isset($_REQUEST['Trips'])?$_REQUEST['Trips']:'';
-       //$model->date_of_travel = date("d-m-Y");   
+       $model->date_of_travel = date("d-m-Y");   
        if(isset($_REQUEST['Trips']['date_of_travel']))
         $model->date_of_travel = $_REQUEST['Trips']['date_of_travel'];
        if(isset($_REQUEST['Trips']['buyer']))
