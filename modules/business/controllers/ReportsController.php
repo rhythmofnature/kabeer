@@ -41,9 +41,9 @@ class ReportsController extends Controller
        
        
        if($model->buyer)
-        $where_addon = "and buyer='$model->buyer'";    
+        $where_addon .= "and bur_trips.buyer='$model->buyer'";    
        if($model->date_of_travel)
-        $where_addon = "and bur_trips.date_of_travel='".date("Y-m-d",strtotime($model->date_of_travel))."'";          
+        $where_addon .= "and bur_trips.date_of_travel='".date("Y-m-d",strtotime($model->date_of_travel))."'";          
     
        $trips = TripProducts::find()
        ->select([
