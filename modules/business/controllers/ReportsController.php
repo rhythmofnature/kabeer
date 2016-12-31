@@ -74,140 +74,104 @@ class ReportsController extends Controller
             'model' => $model,
         ]);
     }
-
+    
     public function actionVehiclew()
     {
        $where_addon = '';$report = '';
        $model = new Trips;
+      
        $model->attributes = isset($_REQUEST['Trips'])?$_REQUEST['Trips']:'';
+       //$model->date_of_travel = date("d-m-Y");   
+       if(isset($_REQUEST['Trips']['date_of_travel']))
+        $model->date_of_travel = $_REQUEST['Trips']['date_of_travel'];
+       if(isset($_REQUEST['Trips']['buyer']))
+        $model->buyer = $_REQUEST['Trips']['buyer'];        
        
-       if($model->vehicle_id)
-        $where_addon .= "and vehicle_id='$model->vehicle_id'";
-        
-       $expenses = Expenses::find()
-       ->select(['sum(amount) as amount','FROM_DAYS(TO_DAYS(date) -MOD(TO_DAYS(date) -1, 7)) AS date'])
-       ->groupBy(['FROM_DAYS(TO_DAYS(date) -MOD(TO_DAYS(date) -1, 7))'])
-       ->orderBy(['date'=>SORT_DESC])
-       ->where("1 $where_addon")
-       ->limit(20)
-       ->all();  
        
        if($model->buyer)
-        $where_addon = "and buyer='$model->buyer'";  
-       if($model->merchant)
-        $where_addon = "and merchant='$model->merchant'";         
+        $where_addon .= "and bur_trips.buyer='$model->buyer'";    
+       if($model->date_of_travel)
+        $where_addon .= "and bur_trips.date_of_travel='".date("Y-m-d",strtotime($model->date_of_travel))."'";          
     
-       $trips = Trips::find()
+       $trips = TripProducts::find()
        ->select([
-                 'sum(vehicle_rent) as vehicle_rent',
-                 'FROM_DAYS(TO_DAYS(date_of_travel) -MOD(TO_DAYS(date_of_travel) -1, 7)) AS date_of_travel',
-                 'count(*) as id',
-                 'sum(driver_amount) as driver_amount',
-                 'sum(merchant_amount) as merchant_amount',
-                 'sum(buyer_amount_total) as buyer_amount',
+                 'FROM_DAYS(TO_DAYS(bur_trips.date_of_travel) -MOD(TO_DAYS(bur_trips.date_of_travel) -1, 7)) AS date_of_travel',
+                 'sum(quantity) as quantity',
+                 'sum(price) as price',
+                 'product_id'
                  ])
-       ->groupBy(['FROM_DAYS(TO_DAYS(date_of_travel) -MOD(TO_DAYS(date_of_travel) -1, 7))'])
-       ->orderBy(['date_of_travel'=>SORT_DESC])
-       ->where("id != '".Yii::$app->params['tripId']."' $where_addon")
-       ->limit(20)
+       ->joinWith('trip')
+       ->groupBy(['FROM_DAYS(TO_DAYS(bur_trips.date_of_travel) -MOD(TO_DAYS(bur_trips.date_of_travel) -1, 7))','product_id'])
+       ->orderBy(['bur_trips.date_of_travel'=>SORT_DESC])
+       ->where("bur_trips.id != '".Yii::$app->params['tripId']."' and buyer > 0 $where_addon")
+       //->limit(20)
        ->all();
-       
-       
+        
        
        if($trips)
        {
 		foreach($trips as $trip)
 		{
-		  $report[$trip->date_of_travel]['rent'] = $trip->vehicle_rent;
-		  $report[$trip->date_of_travel]['driver'] = $trip->driver_amount;
-		  $report[$trip->date_of_travel]['merchant'] = $trip->merchant_amount;
-		  $report[$trip->date_of_travel]['customer'] = $trip->buyer_amount;
-		  $report[$trip->date_of_travel]['no_trips'] = $trip->id;        
+		  $report[$trip->date_of_travel][$trip->product_id]['quantity'] = $trip->quantity;
+		  $report[$trip->date_of_travel][$trip->product_id]['price'] = $trip->price;
+		  $report[$trip->date_of_travel][$trip->product_id]['product'] = $trip->material->name;      
 		}
        }
- 
-       if($expenses)
-       { 
-		foreach($expenses as $expense)
-		{
-		  if(isset($report[$expense->date])) {
-			$report[$expense->date]['expense'] = $expense->amount;      
-		  }
-		}  
-       }
-       
+
        return $this->render('vehiclew', [
             'report' => $report,
             'model' => $model,
         ]);
-    }
+    }   
     
     public function actionVehiclem()
     {
        $where_addon = '';$report = '';
        $model = new Trips;
+      
        $model->attributes = isset($_REQUEST['Trips'])?$_REQUEST['Trips']:'';
+       //$model->date_of_travel = date("d-m-Y");   
+       if(isset($_REQUEST['Trips']['date_of_travel']))
+        $model->date_of_travel = $_REQUEST['Trips']['date_of_travel'];
+       if(isset($_REQUEST['Trips']['buyer']))
+        $model->buyer = $_REQUEST['Trips']['buyer'];        
        
-       if($model->vehicle_id)
-        $where_addon .= "and vehicle_id='$model->vehicle_id'";
-        
-       $expenses = Expenses::find()
-       ->select(['sum(amount) as amount','DATE(DATE_FORMAT(date, "%Y-%m-01")) AS date'])
-       ->groupBy(['DATE(DATE_FORMAT(date, "%Y-%m-01"))'])
-       ->orderBy(['date'=>SORT_DESC])
-       ->where("1 $where_addon")
-       ->limit(20)
-       ->all();  
        
        if($model->buyer)
-        $where_addon = "and buyer='$model->buyer'";  
-       if($model->merchant)
-        $where_addon = "and merchant='$model->merchant'";         
+        $where_addon .= "and bur_trips.buyer='$model->buyer'";    
+       if($model->date_of_travel)
+        $where_addon .= "and bur_trips.date_of_travel='".date("Y-m-d",strtotime($model->date_of_travel))."'";          
     
-       $trips = Trips::find()
+       $trips = TripProducts::find()
        ->select([
-                 'sum(vehicle_rent) as vehicle_rent',
-                 'DATE(DATE_FORMAT(date_of_travel, "%Y-%m-01")) AS date_of_travel',
-                 'count(*) as id',
-                 'sum(driver_amount) as driver_amount',
-                 'sum(merchant_amount) as merchant_amount',
-                 'sum(buyer_amount_total) as buyer_amount',
+                 'DATE(DATE_FORMAT(bur_trips.date_of_travel, "%Y-%m-01")) AS date_of_travel',
+                 'sum(quantity) as quantity',
+                 'sum(price) as price',
+                 'product_id'
                  ])
-       ->groupBy(['DATE(DATE_FORMAT(date_of_travel, "%Y-%m-01"))'])
-       ->orderBy(['date_of_travel'=>SORT_DESC])
-       ->where("id != '".Yii::$app->params['tripId']."' $where_addon")
-       ->limit(12)
+       ->joinWith('trip')
+       ->groupBy(['DATE(DATE_FORMAT(bur_trips.date_of_travel, "%Y-%m-01"))','product_id'])
+       ->orderBy(['bur_trips.date_of_travel'=>SORT_DESC])
+       ->where("bur_trips.id != '".Yii::$app->params['tripId']."' and buyer > 0 $where_addon")
+       //->limit(20)
        ->all();
-       
-       
+        
        
        if($trips)
        {
 		foreach($trips as $trip)
 		{
-		  $report[$trip->date_of_travel]['rent'] = $trip->vehicle_rent;
-		  $report[$trip->date_of_travel]['driver'] = $trip->driver_amount;
-		  $report[$trip->date_of_travel]['merchant'] = $trip->merchant_amount;
-		  $report[$trip->date_of_travel]['customer'] = $trip->buyer_amount;
-		  $report[$trip->date_of_travel]['no_trips'] = $trip->id;        
+		  $report[$trip->date_of_travel][$trip->product_id]['quantity'] = $trip->quantity;
+		  $report[$trip->date_of_travel][$trip->product_id]['price'] = $trip->price;
+		  $report[$trip->date_of_travel][$trip->product_id]['product'] = $trip->material->name;      
 		}
        }
- 
-       if($expenses)
-       { 
-		foreach($expenses as $expense)
-		{
-		  if(isset($report[$expense->date])) {
-			$report[$expense->date]['expense'] = $expense->amount;      
-		  }
-		}  
-       }
-       
+
        return $this->render('vehiclem', [
             'report' => $report,
             'model' => $model,
         ]);
-    }    
-    
+    }      
+   
 }
 ?>

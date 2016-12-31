@@ -1,4 +1,4 @@
-<?php exit;
+<?php 
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 use yii\helpers\ArrayHelper;
@@ -11,8 +11,7 @@ use kartik\widgets\Select2;
 use miloschuman\highcharts\Highcharts;
 use yii\web\JsExpression;
 
-
-$this->title = Yii::t('app', 'Vehicle Monthly report');
+$this->title = Yii::t('app', 'Monthly Business report');
 
 ?>
 <!---Start Select Fees Collection Category---> 
@@ -23,31 +22,13 @@ $this->title = Yii::t('app', 'Vehicle Monthly report');
     <div class="box-body no-padding">
 	<?php $form = ActiveForm::begin([
 		'id' => 'bill-collect-form',
-		'method' => 'get',
+		'method' => 'post',
 		'fieldConfig' => [
 			'template' => "{label}{input}{error}",
 		],
 	]); ?>
 
-    <div class="col-md-3">
-		  <?= $form->field($model, 'vehicle_id')
-        ->dropDownList(
-            ArrayHelper::map(VehicleDetails::find()->where(['status'=>1])->all(), 'id', 'name'),
-            ['prompt'=>'Select a vehicle','style'=>'width:200px','onchange'=>'this.form.submit()']
-        );?>
-	</div>
-	
-	<div class="col-md-3">	
-	  <?php
-	  echo $form->field($model, 'merchant')->widget(Select2::classname(), [
-	  'data' => ArrayHelper::map(CustomerDetails::find()->where(['status'=>1,'customer_type'=>1])->orderBy('name')->all(), 'id', 'name'),
-	  'options' => ['placeholder' => 'Select Merchant ...','style'=>'width:200px','onChange'=>'this.form.submit()'],
-	  'pluginOptions' => [
-	  'allowClear' => true
-	  ],
-	  ]);
-	  ?>
-	</div>
+
 	
 	<div class="col-md-5">
          <?php
@@ -70,26 +51,34 @@ $this->title = Yii::t('app', 'Vehicle Monthly report');
 </div>
 <!---End Select Fees Collection Category---> 
 
-
 <!---Vehicle Monthly Profit--->
 <div class="col-md-4">
 	<div class="box box-info">
 	<div class="box-header with-border">
-		<h3 class="box-title"><i class="fa fa-pie-chart"></i> Vehicle Monthly Profit</h3>
+		<h3 class="box-title"><i class="fa fa-pie-chart"></i>Monthly Business Report</h3>
 	</div>
 	<div class="box-body">
 <?php
  if($report)
  {
+  $new_report = array();
   foreach($report as $date => $data)
   {
-    $data['expense'] = isset($data['expense'])? $data['expense']:0;
-    $chart_vehicle[] = array(date("M Y",strtotime($date)),$data['rent'] - $data['driver'] - $data['expense']);
-    $chart_business[] = array(date("M Y",strtotime($date)),$data['customer'] - $data['merchant'] - $data['rent']);
+  foreach($data as $datum)
+  {  
+    @$new_report[$date] += $datum['price'];
   }
+  }
+  
+  foreach($new_report as $date => $amount)
+  {
+   $chart_business[] = array(date("M Y",strtotime($date)),$amount);
+  }
+ }else 
+ {
+ $chart_business = array();
  }
 
-
 	echo Highcharts::widget([
 		'options' => [	
 			'exporting'=>[
@@ -129,66 +118,7 @@ $this->title = Yii::t('app', 'Vehicle Monthly report');
 			],
 			'series'=> [
 				[
-					'name'=>'Monthly Profit',
-					'data'=>$chart_vehicle
-				]
-			]
-		],
-	]);
-	?>
-	</div>
-   </div>
-</div> 
-
-
-<!---Business Monthly Profit--->
-<div class="col-md-4">
-	<div class="box box-info">
-	<div class="box-header with-border">
-		<h3 class="box-title"><i class="fa fa-pie-chart"></i> Business Monthly Profit</h3>
-	</div>
-	<div class="box-body">
-<?php
-	echo Highcharts::widget([
-		'options' => [	
-			'exporting'=>[
-			 	'enabled'=>false 
-			],
-			//'colors'=>['#F45B5B', '#F7A35C', '#2B908F'],
-			'legend'=>[
-			    'align'=>'center',
-			    'verticalAlign'=>'bottom',
-			    'layout'=>'horizontal',
-			    'x'=>0,
-			    'y'=>0,
-			],
-			'credits'=>[
-    				'enabled'=>false
-  			 ],
-			'chart'=> [
-				'type'=>'pie',
-			],
-			'title'=>[
-				'text'=>'',
-				'margin'=>0,
-			],
-			'plotOptions'=>[
-				'pie'=>[
-					'innerSize'=>80,
-					'depth'=>45,
-					'dataLabels'=>[
-						'enabled'=>false
-				    	 ],
-					 'showInLegend'=>true,
-				],	
-				'series'=>[
-					'pointPadding'=>0,
-					'groupPadding'=>0,      
-				 ],
-			],
-			'series'=> [
-				[
-					'name'=>'Monthly Profit',
+					'name'=>'Amount',
 					'data'=>$chart_business
 				]
 			]
@@ -198,6 +128,7 @@ $this->title = Yii::t('app', 'Vehicle Monthly report');
 	</div>
    </div>
 </div> 
+
 
 
 
@@ -215,40 +146,38 @@ $this->title = Yii::t('app', 'Vehicle Monthly report');
  <div class="box-body table-responsive no-padding">
  <table class ='table-bordered table table-striped'>
  <tr>
-     <th class='text-center'>Month</th>
-     <th class='text-center'>No. of trips</th>
-     <th class='text-center'>Merchant</th>
-     <th class='text-center'>Customer</th>
-     <th class='text-center'>Rent</th>
-     <th class='text-center'>Driver</th>
-     <th class='text-center'>Expence</th>
-     <th class='text-center'>Veh.Profit</th>
-     <th class='text-center'>Business Profit</th>
+    <th class='text-center'>Week</th>
+     <th class='text-center'>Product</th>
+     <th class='text-center'>Quantity</th>
+     <th class='text-center'>Amount (Rs)</th>
  </tr>
  <?php
+ $total_price = 0;
  if($report)
  {
   foreach($report as $date => $data)
   {
+  foreach($data as $product_id => $datum)
+  {
+  $total_price += $datum['price'];
   ?>
  <tr>
-     <td class='text-center'><?php echo date("M Y",strtotime($date));?></td>
-     <td class='text-center'><?php echo $data['no_trips'];?></td>
-     <td class='text-center'><?php echo $data['merchant'];?></td>
-     <td class='text-center'><?php echo $data['customer'];?></td>
-     <td class='text-center'><?php echo $data['rent'];?></td>
-     <td class='text-center'><?php echo $data['driver'];?></td>
-     <td class='text-center'><?php 
-     $data['expense'] = isset($data['expense'])? $data['expense']:0;
-     echo $data['expense'];
-     ?></td>
-     <td class='text-center'><?php echo $data['rent'] - $data['driver'] - $data['expense'];?></td>
-     <td class='text-center'><?php echo $data['customer'] - $data['merchant'] - $data['rent'];?></td>
+     <td class='text-center'><?php echo date("M Y",strtotime($date));?></td> 
+     <td class='text-center'><?php echo $datum['product'];?></td>
+     <td class='text-center'><?php echo $datum['quantity'];?></td>
+     <td class='text-center'><?php echo $datum['price'];?></td>
  </tr>  
   <?php
   }
+  }
  }
  ?>
+<tr>
+     <td class='text-center'></td>
+     <td class='text-center'></td>
+     <td class='text-center'>Total </td>
+     <td class='text-center'><?= $total_price ?></td>
+ </tr> 
 </table>
 </div></div>
 </div> <!---/end box-body--->

@@ -16,6 +16,7 @@ use Yii;
  */
 class TripProducts extends \yii\db\ActiveRecord
 {
+    public $date_of_travel;
     /**
      * @inheritdoc
      */
